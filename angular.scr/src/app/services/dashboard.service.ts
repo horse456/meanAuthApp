@@ -13,6 +13,14 @@ export class DashboardService {
     return this.http.post('http://localhost:3000/users/dashboard/smart/add', smart, {headers: headers})
       .map( res => res.json());
   }
+  
+  updateSmart(smart,Id){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/smart/update?smartId='+Id);
+    return this.http.post('http://localhost:3000/users/dashboard/smart/update?smartId='+Id, smart, {headers: headers})
+      .map( res => res.json());
+  }
 
 
 }
