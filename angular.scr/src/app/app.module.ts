@@ -17,6 +17,9 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { DashboardService } from './services/dashboard.service';
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'register', component: RegisterComponent},
@@ -40,12 +43,14 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     ValidateService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    DashboardService
   ],
   bootstrap: [AppComponent]
 })

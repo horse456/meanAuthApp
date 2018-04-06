@@ -1,2 +1,56 @@
 <h2 class="page-header">Dashboard</h2>
+<br>
 <p>Welcome to your dashboard!</p>
+<br>
+
+<form (submit)="onSmartFormSubmit()" [formGroup]="smart">
+    
+    <div class="form-group">
+        <label  class="form-group">
+                <span>Subject: </span>
+                <input type="text" 
+                        placeholder="what's your subject?"
+                        formControlName="subject">
+        </label><br>
+        <label>
+            <span>speciafic: </span>
+            <input type="text" 
+                    placeholder="speciafic your subject"
+                    formControlName="speciafic">
+        </label>
+        <br>
+        <label>
+                <span>measurable: </span>
+                <input type="text" 
+                        placeholder="measure your subject?"
+                        formControlName="measurable">
+        </label><br>
+        <label>
+                <span>achievable: </span>
+                <input type="text" 
+                        placeholder="make sure your subject achievable?"
+                        formControlName="achievable">
+        </label><br>
+        <label>
+                <span>relevant: </span>
+                <input type="text" 
+                        placeholder="the relevant of your subject?"
+                        formControlName="relevant">
+        </label><br>
+        <label>
+                <span>timeBased: </span>
+                <input type="date" 
+                        placeholder="20181230"
+                        formControlName="timeBased">
+        </label><br>
+        <label>
+                <span>ratio: </span>
+                <input type="number" 
+                        placeholder="80"
+                        formControlName="ratio">
+        </label>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br>
+    </div>
+</form>
