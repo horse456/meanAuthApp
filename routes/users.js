@@ -66,14 +66,14 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
     res.json({user: req.user});
 });
 
-// Profile
+// Dashboard
 // router.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 //     res.send('dashboard');
 //     // res.json({user: req.user});
 // });
 
 // Smart Form
-router.post('/dashboard/smart', (req, res, next) => {
+router.post('/dashboard/smart/add', (req, res, next) => {
     let newSmart = new Smart({
         subject: req.body.subject,
         speciafic: req.body.speciafic,
@@ -89,6 +89,20 @@ router.post('/dashboard/smart', (req, res, next) => {
             res.json({success: false, msg: 'Failed to add SMART form'});
         } else {
             res.json({success: true, msg: 'SMART Created'})
+        }
+    })
+});
+
+router.post('/dashboard/smart/update', (req, res, next) => {
+    const smartId = req.query.smartId;
+    let newSmart = req.body
+    console.log(smartId,newSmart);
+
+    Smart.updateSmart(smartId,newSmart, (err, smart) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update SMART form'});
+        } else {
+            res.json({success: true, msg: 'SMART Updated'})
         }
     })
 });
@@ -115,6 +129,19 @@ router.get('/dashboard/smart', passport.authenticate('jwt', {session: false}), (
                     ratio: smart.ratio
                 }
             })
+        }
+    })
+});
+
+router.post('/dashboard/smart/remove', (req, res, next) => {
+    const smartId = req.query.smartId;
+    console.log(smartId);
+
+    Smart.removeSmart(smartId, (err, smart) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove SMART form'});
+        } else {
+            res.json({success: true, msg: 'SMART removed'})
         }
     })
 });

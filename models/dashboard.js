@@ -59,11 +59,22 @@ const SmartSchema = mongoose.Schema({
 
 const Smart = module.exports = mongoose.model('Smart', SmartSchema);
 
+// SmartForm read data
 module.exports.getSmartById = function(id, callback) {
     Smart.findById(id, callback);
 };
 
-
+// SmartForm create data
 module.exports.addSmart = function(newSmart, callback){
     newSmart.save(callback);
+};
+
+// SmartForm update data
+module.exports.updateSmart = function(id, newSmart, callback){
+    Smart.findByIdAndUpdate(id, newSmart,{upsert: true}, callback);
+};
+
+//// SmartForm delete data
+module.exports.removeSmart = function(id, callback){
+    Smart.findByIdAndRemove(id, callback);
 };
