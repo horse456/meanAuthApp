@@ -67,6 +67,9 @@ module.exports.getSmartById = function(id, callback) {
 // SmartForm create data
 module.exports.addSmart = function(newSmart, callback){
     newSmart.save(callback);
+    
+    //get the new _id
+    console.log(newSmart.get('_id'))
 };
 
 // SmartForm update data
