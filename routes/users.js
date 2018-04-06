@@ -84,11 +84,12 @@ router.post('/dashboard/smart/add', (req, res, next) => {
         ratio: req.body.ratio
     });
 
+
     Smart.addSmart(newSmart, (err, smart) => {
         if (err){
             res.json({success: false, msg: 'Failed to add SMART form'});
         } else {
-            res.json({success: true, msg: 'SMART Created'})
+            res.json({smart, success: true,  msg: 'SMART Created'});
         }
     })
 });
