@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 const User = require('../models/user');
+const Smart = require('../models/dashboard');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -65,9 +66,57 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
     res.json({user: req.user});
 });
 
-// Validate
-router.get('/validate', (req, res, next) => {
-    res.send('VALIDATE');
+// Profile
+// router.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     res.send('dashboard');
+//     // res.json({user: req.user});
+// });
+
+// Smart Form
+router.post('/dashboard/smart', (req, res, next) => {
+    let newSmart = new Smart({
+        subject: req.body.subject,
+        speciafic: req.body.speciafic,
+        measurable: req.body.measurable,
+        achievable: req.body.achievable,
+        relevant: req.body.relevant,
+        timeBased: req.body.timeBased,
+        ratio: req.body.ratio
+    });
+
+    Smart.addSmart(newSmart, (err, smart) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add SMART form'});
+        } else {
+            res.json({success: true, msg: 'SMART Created'})
+        }
+    })
+});
+
+router.get('/dashboard/smart', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const smartId = req.query.smartId;
+    console.log(smartId);
+    // res.json({smart: req.smart});
+    Smart.getSmartById(smartId, (err, smart) => {
+        if(err) throw err;
+        if(!smart) {
+            return res.json({success: false, msg: 'Smart Form not found'});
+        } else {
+            res.json({
+                success: true,
+                smart: {
+                    id: smart._id,
+                    subject: smart.subject,
+                    speciafic: smart.speciafic,
+                    measurable: smart.measurable,
+                    achievable: smart.achievable,
+                    relevant: smart.relevant,
+                    timeBased: smart.timeBased,
+                    ratio: smart.ratio
+                }
+            })
+        }
+    })
 });
 
 module.exports = router;
