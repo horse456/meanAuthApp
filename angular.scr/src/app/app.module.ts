@@ -19,6 +19,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardService } from './services/dashboard.service';
+import { SmartComponent } from './components/dashboard/smart/smart.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    SmartComponent
   ],
   imports: [
     BrowserModule,

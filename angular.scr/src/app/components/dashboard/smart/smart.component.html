@@ -1,0 +1,63 @@
+
+<form *ngIf="!submited" [routerLinkActive]="['active']"  [formGroup]="smart">
+  <h5>---SMART Form---</h5>
+  <br>
+  <div class="form-group">
+      <label  class="form-group">
+              <span>Subject: </span>
+              <input type="text" 
+                      placeholder="what's your subject?"
+                      formControlName="subject">
+      </label><br>
+      <label>
+          <span>speciafic: </span>
+          <input type="text" 
+                  placeholder="speciafic your subject"
+                  formControlName="speciafic">
+      </label>
+      <br>
+      <label>
+              <span>measurable: </span>
+              <input type="text" 
+                      placeholder="measure your subject?"
+                      formControlName="measurable">
+      </label><br>
+      <label>
+              <span>achievable: </span>
+              <input type="text" 
+                      placeholder="make sure your subject achievable?"
+                      formControlName="achievable">
+      </label><br>
+      <label>
+              <span>relevant: </span>
+              <input type="text" 
+                      placeholder="the relevant of your subject?"
+                      formControlName="relevant">
+      </label><br>
+      <label>
+              <span>timeBased: </span>
+              <input type="date" 
+                      placeholder="20181230"
+                      formControlName="timeBased">
+      </label><br>
+      <label>
+              <span>ratio: </span>
+              <input type="number" 
+                      placeholder="80"
+                      formControlName="ratio">
+      </label>
+      <br><br>
+      <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormSubmit()">Submit</button>
+      <br>
+  </div>
+</form>
+<button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormUpdate()">Update</button>
+<form *ngIf="submited" [routerLinkActive]="['active']" (submit)="onSmartFormEdit()" >
+  <ul *ngIf="submited">SMART form:
+      <li *ngFor="let item of smartMessage">
+          {{item}}
+      </li>
+  </ul>
+  <br>
+  <button type="submit" class="btn btn-primary">Edit</button>
+</form>
