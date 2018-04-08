@@ -1,0 +1,65 @@
+<br><br>
+<form *ngIf="!submited" [routerLinkActive]="['active']"  [formGroup]="rehearsal">
+    <h5>---Rehearsal Form---</h5>
+    <br>
+    <div class="form-group">
+        <label  class="form-group">
+                <span>Subject:  {{subject}} </span>
+        </label><br>
+        <label>
+            <span>Deadline: {{deadline}}</span>
+           
+        </label>
+        <br>
+        <label>
+                <span>Money: </span>
+                <input type="number" 
+                        placeholder="700"
+                        formControlName="money">
+        </label><br>
+        <label>
+                <span>HP(Hit point 0~100): </span>
+                <input type="range" value="60" min="0" max="100"
+                        formControlName="hp">
+        </label><br>
+        <label>
+                <span>MP(Mana Point 0~100): </span>
+                <input type="range" value="60" min="0" max="100"
+                        formControlName="mp">
+        </label><br>
+        <label>
+                <span>Policy: </span>
+                <input type="textarea" 
+                        placeholder="enumber your actions"
+                        formControlName="policy">
+        </label><br>
+        <label>
+                <span>Problem: </span>
+                <input type="textarea" 
+                        placeholder="take care "
+                        formControlName="problem">
+        </label>
+        <br>
+        <label>
+            <span>Ratio(0~100): </span>
+            <input type="range" value="60" min="0" max="100"
+                    formControlName="ratio">
+        </label>
+        <br><br>
+        <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormSubmit()">Submit</button>
+    </div>
+  </form>
+  <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormUpdate()">Update</button>
+  <form *ngIf="submited" [routerLinkActive]="['active']" >
+    <ul *ngIf="submited">
+        <h5>---Rehearsal Form---</h5>
+        <li *ngFor="let item of smartMessage">
+            {{item}}
+        </li>
+    </ul>
+    <br>
+    <button (click)="onRehearsalFormEdit()" class="btn btn-primary">Edit</button>
+    <span></span>
+    <button (click)="onRehearsalFormNext()" class="btn btn-primary">Next</button>
+  </form>
+  

@@ -15,6 +15,9 @@ export class DashboardComponent implements OnInit {
   created: boolean;
   rehearsal: boolean;
   smartId: string;
+  subject: string;
+  deadline: string;
+  rehearsalId:string;
   
   constructor () {
 
@@ -30,10 +33,16 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  onRehearsal(smartId: string) {
+  onRehearsal(data: string) {
+    // show the rehearsal form
     this.rehearsal = true;
-    this.smartId = smartId;
-    console.log(this.smartId,'click')
+    // get the data from smart form
+    const arr = data.split(',');
+    console.log(arr);
+    this.smartId = arr[0];
+    this.subject = arr[1];
+    this.deadline = arr[2].slice(0,10);
+    
   }
 
 }

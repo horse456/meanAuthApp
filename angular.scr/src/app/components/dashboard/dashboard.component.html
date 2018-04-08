@@ -5,5 +5,5 @@
         <app-smart (onSmartId)="onRehearsal($event)"></app-smart>
 </div>
 <div *ngIf="rehearsal" >
-        <p> show rehearsal </p>
+        <app-rehearsal [subject]="this.subject" [deadline]="this.deadline"></app-rehearsal>
 </div>

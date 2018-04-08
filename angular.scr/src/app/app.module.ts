@@ -20,6 +20,11 @@ import { AuthGuard } from './guards/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardService } from './services/dashboard.service';
 import { SmartComponent } from './components/dashboard/smart/smart.component';
+import { RehearsalComponent } from './components/dashboard/rehearsal/rehearsal.component';
+import { OperationComponent } from './components/dashboard/operation/operation.component';
+import { AskComponent } from './components/dashboard/ask/ask.component';
+import { DealComponent } from './components/dashboard/deal/deal.component';
+import { ResumeComponent } from './components/dashboard/resume/resume.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -38,7 +43,12 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    SmartComponent
+    SmartComponent,
+    RehearsalComponent,
+    OperationComponent,
+    AskComponent,
+    DealComponent,
+    ResumeComponent
   ],
   imports: [
     BrowserModule,

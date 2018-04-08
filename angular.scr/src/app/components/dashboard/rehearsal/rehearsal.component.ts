@@ -3,23 +3,22 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { DashboardService } from '../../../services/dashboard.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
-  selector: 'app-smart',
-  templateUrl: './smart.component.html',
-  styleUrls: ['./smart.component.css']
+  selector: 'app-rehearsal',
+  templateUrl: './rehearsal.component.html',
+  styleUrls: ['./rehearsal.component.css']
 })
-export class SmartComponent implements OnInit {
-  smart: FormGroup;
+export class RehearsalComponent implements OnInit {
+  rehearsal: FormGroup;
   submited: boolean;
   edit: boolean;
-  smartMessage:any;
-  smartId: string;
-  subject:string;
-  timeBased: string;
+  rehearsalMessage:any;
+  rehearsalId: string;
 
-  @Output() onSmartId = new EventEmitter<string>();
+  @Output() onRehearsalId = new EventEmitter<string>();
+  @Input() subject:string;
+  @Input() deadline:string;
 
   constructor(private formBuilder: FormBuilder, 
               private flashMessage: FlashMessagesService,
@@ -27,26 +26,25 @@ export class SmartComponent implements OnInit {
               private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.smart = this.formBuilder.group({
-      subject: ['',[Validators.required, Validators.minLength(8)]],
-      speciafic: ['', [Validators.required]],
-      measurable:  ['', [Validators.required]],
-      achievable: ['', [Validators.required]],
-      relevant: ['', [Validators.required]],
-      timeBased:  ['', [Validators.required]],
+    this.rehearsal = this.formBuilder.group({
+      subject: this.subject,
+      deadline: this.deadline,
+      money:  ['', [Validators.required]],
+      hp: ['', [Validators.required]],
+      mp: ['', [Validators.required]],
+      policy:  ['', [Validators.required]],
+      problem: ['', [Validators.required]],
       ratio: ['', [Validators.required]]
     });
  
   }
 
-  onSmartFormSubmit() {
-    const smart = this.smart.value;
-    console.log(this.smart.value, this.smart.valid);
-    // this.smartMessage= JSON.stringify(smart);
-    // console.log(this.smartMessage)
+  onRehearsalFormSubmit() {
+    const rehearsal = this.rehearsal.value;
+    console.log(this.rehearsal.value, this.rehearsal.valid);
 
     // Submit SmartForm
-    this.dashboardService.submitSmart(smart).subscribe( data => {
+    this.dashboardService.submitRehearsal(rehearsal).subscribe( data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
        
@@ -54,15 +52,13 @@ export class SmartComponent implements OnInit {
         this.submited = true;
         
         // output the smartMessage
-        const messages = JSON.stringify(smart);
-        this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.smartMessage);
+        const messages = JSON.stringify(rehearsal);
+        this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
+        console.log(this.rehearsalMessage);
         
         // get the smartId to edit
-        this.smartId = data.smart._id;
-        this.subject = data.smart.subject;
-        this.timeBased = data.smart.timeBased;
-        console.log(this.smartId)
+        this.rehearsalId = data.rehearsal._id;
+        console.log(this.rehearsalId)
       
         
         // this.router.navigate(['/dashboard']);
@@ -73,11 +69,11 @@ export class SmartComponent implements OnInit {
     })
   }
 
-  onSmartFormUpdate(){
-    const smart = this.smart.value;
-    const Id = this.smartId;
+  onRehearsalFormUpdate(){
+    const smart = this.rehearsal.value;
+    const Id = this.rehearsalId;
     console.log(Id);
-    this.dashboardService.updateSmart(smart,Id).subscribe(data => {
+    this.dashboardService.updateRehearsal(smart,Id).subscribe(data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
        
@@ -87,8 +83,8 @@ export class SmartComponent implements OnInit {
         
         // output the smartMessage
         const messages = JSON.stringify(smart);
-        this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.smartMessage)
+        this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
+        console.log(this.rehearsalMessage)
         
       
         // this.router.navigate(['/dashboard']);
@@ -99,17 +95,17 @@ export class SmartComponent implements OnInit {
     })
   }
   
-  onSmartFormEdit() {
+  onRehearsalFormEdit() {
     // show the Form
     this.submited = false;
     // hidden the edit button
     this.edit = true;
   }
 
-  onSmartFormNext() {
-    // pass  datas to parent module
-    const data = this.smartId+","+this.subject+","+this.timeBased
-    this.onSmartId.emit(data);
+  onRehearsalFormNext() {
+    // pass the smartId to parent module
+    this.onRehearsalId.emit(this.rehearsalId);
 
   }
+
 }
