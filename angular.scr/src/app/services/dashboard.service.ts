@@ -32,7 +32,7 @@ export class DashboardService {
   updateRehearsal(doc,Id){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log('http://localhost:3000/users/dashboard/smart/update?rehearsalId='+Id);
+    console.log('http://localhost:3000/users/dashboard/rehearsal/update?rehearsalId='+Id);
     return this.http.post('http://localhost:3000/users/dashboard/rehearsal/update?rehearsalId='+Id, doc, {headers: headers})
       .map( res => res.json());
   }

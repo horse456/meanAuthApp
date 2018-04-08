@@ -2,8 +2,11 @@
 <br>
 <button class="btn btn-primary" *ngIf="!created" [routerLinkActive]="['active']" (click)="onCreated()" >Create New Preject</button>
 <div *ngIf="created">
-        <app-smart (onSmartId)="onRehearsal($event)"></app-smart>
+        <app-smart (onSmartId)="onSmart($event)"></app-smart>
 </div>
 <div *ngIf="rehearsal" >
-        <app-rehearsal [subject]="this.subject" [deadline]="this.deadline"></app-rehearsal>
+        <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" (onRehearsalId)="onRehearsal($event)"></app-rehearsal>
+</div>
+<div *ngIf="operation" >
+        <app-operation ></app-operation>
 </div>
