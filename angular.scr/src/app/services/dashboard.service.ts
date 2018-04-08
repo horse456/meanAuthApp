@@ -37,4 +37,19 @@ export class DashboardService {
       .map( res => res.json());
   }
 
+  submitPost(doc){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/post/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+  
+  updatePost(doc,Id){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/post/update?postId='+Id);
+    return this.http.post('http://localhost:3000/users/dashboard/post/update?postId='+Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
 }

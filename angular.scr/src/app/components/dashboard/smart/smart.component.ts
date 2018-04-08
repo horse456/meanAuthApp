@@ -3,13 +3,16 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { DashboardService } from '../../../services/dashboard.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+// import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { AuthService } from '../../../services/auth.service';
+
 
 @Component({
   selector: 'app-smart',
   templateUrl: './smart.component.html',
   styleUrls: ['./smart.component.css']
 })
+
 export class SmartComponent implements OnInit {
   smart: FormGroup;
   submited: boolean;
@@ -18,13 +21,19 @@ export class SmartComponent implements OnInit {
   smartId: string;
   subject:string;
   timeBased: string;
+  postId: string;
+
+  //get the user_id to write post doc to database
+  userId: string;
+  post: object;
 
   @Output() onSmartId = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder, 
               private flashMessage: FlashMessagesService,
               private router: Router,
-              private dashboardService: DashboardService) { }
+              private dashboardService: DashboardService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.smart = this.formBuilder.group({
@@ -37,6 +46,15 @@ export class SmartComponent implements OnInit {
       ratio: ['', [Validators.required]]
     });
  
+    //get the user_id to write post doc to database
+    this.authService.getProfile().subscribe(profile => {
+      this.userId = profile.user._id;
+      console.log(this.userId)
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
   }
 
   onSmartFormSubmit() {
@@ -107,9 +125,32 @@ export class SmartComponent implements OnInit {
   }
 
   onSmartFormNext() {
-    // pass  datas to parent module
-    const data = this.smartId+","+this.subject+","+this.timeBased
-    this.onSmartId.emit(data);
 
+    // create post doc to database 
+    this.post = {
+      subject: this.subject,
+      userId: this.userId,
+      smartId: this.smartId
+    };
+    console.log(this.post);
+
+    // pust doc to database
+    this.dashboardService.submitPost(this.post).subscribe( data => {
+      if (data.success) {
+        this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
+        this.postId = data.post._id;
+      } else {
+        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+      }
+    })
+
+
+    // pass  datas to parent module
+    const data = this.smartId+","+this.subject+","+this.timeBased+","+this.postId
+    this.onSmartId.emit(data);
   }
+
+
+
+
 }

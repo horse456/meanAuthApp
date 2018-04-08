@@ -17,8 +17,10 @@ export class DashboardComponent implements OnInit {
   smartId: string;
   subject: string;
   deadline: string;
+  postId: string;
   rehearsalId:string;
   operation: boolean;
+
   
   constructor () {
 
@@ -41,6 +43,7 @@ export class DashboardComponent implements OnInit {
     this.smartId = arr[0];
     this.subject = arr[1];
     this.deadline = arr[2].slice(0,10);
+    this.postId = arr[3];
     // show the rehearsal form
     this.rehearsal = true;
     
