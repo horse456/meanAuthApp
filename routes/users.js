@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 const User = require('../models/user');
-const Smart = require('../models/dashboard');
+const Smart = require('../models/smart');
+const Rehearsal = require('../models/rehearsal');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -146,5 +147,83 @@ router.post('/dashboard/smart/remove', (req, res, next) => {
         }
     })
 });
+
+// Rehearsal Form
+router.post('/dashboard/rehearsal/add', (req, res, next) => {
+    let newDoc = new Rehearsal({
+        subject: req.body.subject,
+        deadline: req.body.deadline,
+        money: req.body.money,
+        hp: req.body.hp,
+        mp: req.body.mp,
+        policy: req.body.policy,
+        problem: req.body.problem,
+        ratio: req.body.ratio
+    });
+
+
+    Rehearsal.addRehearsal(newDoc, (err, rehearsal) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Rehearsal form'});
+        } else {
+            res.json({rehearsal, success: true,  msg: 'Rehearsal Form Created'});
+        }
+    })
+});
+
+router.post('/dashboard/rehearsal/update', (req, res, next) => {
+    const Id = req.query.rehearsalId;
+    let newDoc = req.body
+    console.log(Id, newDoc);
+
+    Rehearsal.updateRehearsal(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update Rehearsal form'});
+        } else {
+            res.json({success: true, msg: 'Rehearsal Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/Rehearsal', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.rehearsalId;
+    console.log(Id);
+    // res.json({smart: req.smart});
+    Rehearsal.getRehearsalById(Id, (err, doc) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Rehearsal Form not found'});
+        } else {
+            res.json({
+                success: true,
+                rehearsal: {
+                    id: doc._id,
+                    subject: doc.subject,
+                    deadline: doc.deadline,
+                    money: doc.money,
+                    hp: doc.hp,
+                    mp: doc.mp,
+                    policy: doc.policy,
+                    problem: doc.problem,
+                    ratio: doc.ratio
+                }
+            })
+        }
+    })
+});
+
+router.post('/dashboard/rehearsal/remove', (req, res, next) => {
+    const Id = req.query.rehearsalId;
+    console.log(Id);
+
+    Smart.removeSmart(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove Rehearsal form'});
+        } else {
+            res.json({success: true, msg: 'Rehearsal Form removed'})
+        }
+    })
+});
+
 
 module.exports = router;

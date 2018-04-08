@@ -1,33 +1,6 @@
-// create git new branch dashboard
+// import required
 const mongoose = require('mongoose');
 const config = require('../config/database');
-
-// Post Schema
-const PostSchema = mongoose.Schema({
-    subject: {
-        type: String
-    },
-    user: {
-        type: String,
-        required: true
-    },
-    smartId: {
-        type: String,
-        required : true
-    },
-    rehearsalId: {
-        type: String,
-    },
-    operationId: {
-        type: String,
-    },
-    result: {
-        type: Boolean,
-    },
-    resumeId: {
-        type: String,
-    }
-});
 
 // Smart Schema
 const SmartSchema = mongoose.Schema({
@@ -77,7 +50,10 @@ module.exports.updateSmart = function(id, newSmart, callback){
     Smart.findByIdAndUpdate(id, newSmart,{upsert: true}, callback);
 };
 
-//// SmartForm delete data
+// SmartForm delete data
 module.exports.removeSmart = function(id, callback){
     Smart.findByIdAndRemove(id, callback);
 };
+
+
+
