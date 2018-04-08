@@ -44,6 +44,8 @@ export class DashboardComponent implements OnInit {
     this.subject = arr[1];
     this.deadline = arr[2].slice(0,10);
     this.postId = arr[3];
+
+
     // show the rehearsal form
     this.rehearsal = true;
     

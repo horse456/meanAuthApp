@@ -49,7 +49,7 @@ export class SmartComponent implements OnInit {
     //get the user_id to write post doc to database
     this.authService.getProfile().subscribe(profile => {
       this.userId = profile.user._id;
-      console.log(this.userId)
+      console.log('userId: ' + this.userId)
     },
     err => {
       console.log(err);
@@ -80,7 +80,7 @@ export class SmartComponent implements OnInit {
         this.smartId = data.smart._id;
         this.subject = data.smart.subject;
         this.timeBased = data.smart.timeBased;
-        console.log(this.smartId)
+        console.log('smartId:'+ this.smartId)
       
         
         // this.router.navigate(['/dashboard']);
@@ -139,15 +139,18 @@ export class SmartComponent implements OnInit {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
         this.postId = data.post._id;
+        console.log('postId: ' + this.postId)
+        // pass  message to parent module
+        const message = this.smartId+","+this.subject+","+this.timeBased+","+this.postId;
+        this.onSmartId.emit(message);
+
       } else {
         this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
       }
     })
 
-
-    // pass  datas to parent module
-    const data = this.smartId+","+this.subject+","+this.timeBased+","+this.postId
-    this.onSmartId.emit(data);
+  
+    
   }
 
 

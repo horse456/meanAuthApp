@@ -7,6 +7,7 @@ const config = require('../config/database');
 const User = require('../models/user');
 const Smart = require('../models/smart');
 const Rehearsal = require('../models/rehearsal');
+const Post = require('../models/post');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -216,7 +217,7 @@ router.post('/dashboard/rehearsal/remove', (req, res, next) => {
     const Id = req.query.rehearsalId;
     console.log(Id);
 
-    Smart.removeSmart(Id, (err, doc) => {
+    Rehearsal.removeRehearsal(Id, (err, doc) => {
         if (err){
             res.json({success: false, msg: 'Failed to remove Rehearsal form'});
         } else {
@@ -225,5 +226,72 @@ router.post('/dashboard/rehearsal/remove', (req, res, next) => {
     })
 });
 
+// Post Form
+router.post('/dashboard/post/add', (req, res, next) => {
+    let newDoc = new Post({
+        subject: req.body.subject,
+        userId: req.body.userId,
+        smartId: req.body.smartId,
+        rehearsalId: req.body.rehearsalId,
+        operationId: req.body.operationId,
+        result: req.body.result,
+        resumeId: req.body.resumeId,
+        askId: req.body.askId,
+        other: req.body.other
+    });
+
+
+    Post.addPost(newDoc, (err, post) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Rehearsal form'});
+        } else {
+            res.json({post, success: true,  msg: 'Rehearsal Form Created'});
+        }
+    })
+});
+
+router.post('/dashboard/post/update', (req, res, next) => {
+    const Id = req.query.postId;
+    let newDoc = req.body
+    console.log(Id, newDoc);
+
+    Post.updatePost(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update post form'});
+        } else {
+            res.json({success: true, msg: 'Post Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/post', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.postId;
+    console.log(Id);
+    // res.json({smart: req.smart});
+    Post.getPostById(Id, (err, post) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Post Form not found'});
+        } else {
+            res.json({
+                success: true,
+                post
+            })
+        }
+    })
+});
+
+router.post('/dashboard/post/remove', (req, res, next) => {
+    const Id = req.query.postId;
+    console.log(Id);
+
+    Post.removePost(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove post form'});
+        } else {
+            res.json({success: true, msg: 'Post Form removed'})
+        }
+    })
+});
 
 module.exports = router;
