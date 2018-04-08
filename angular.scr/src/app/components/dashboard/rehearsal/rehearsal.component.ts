@@ -48,10 +48,10 @@ export class RehearsalComponent implements OnInit {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
        
-        // make flagged to hidden/show SmartForm
+        // make flagged to hidden/show Form
         this.submited = true;
         
-        // output the smartMessage
+        // output the rehearsalMessage
         const messages = JSON.stringify(rehearsal);
         this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
         console.log(this.rehearsalMessage);
@@ -70,10 +70,10 @@ export class RehearsalComponent implements OnInit {
   }
 
   onRehearsalFormUpdate(){
-    const smart = this.rehearsal.value;
+    const rehearsal = this.rehearsal.value;
     const Id = this.rehearsalId;
     console.log(Id);
-    this.dashboardService.updateRehearsal(smart,Id).subscribe(data => {
+    this.dashboardService.updateRehearsal(rehearsal,Id).subscribe(data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
        
@@ -82,7 +82,7 @@ export class RehearsalComponent implements OnInit {
         this.edit = false;
         
         // output the smartMessage
-        const messages = JSON.stringify(smart);
+        const messages = JSON.stringify(rehearsal);
         this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
         console.log(this.rehearsalMessage)
         
@@ -103,7 +103,7 @@ export class RehearsalComponent implements OnInit {
   }
 
   onRehearsalFormNext() {
-    // pass the smartId to parent module
+    // pass the rehearsal Id to parent module
     this.onRehearsalId.emit(this.rehearsalId);
 
   }
