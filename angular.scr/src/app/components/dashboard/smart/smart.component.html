@@ -48,16 +48,18 @@
       </label>
       <br><br>
       <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormSubmit()">Submit</button>
-      <br>
   </div>
 </form>
 <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormUpdate()">Update</button>
-<form *ngIf="submited" [routerLinkActive]="['active']" (submit)="onSmartFormEdit()" >
-  <ul *ngIf="submited">SMART form:
+<form *ngIf="submited" [routerLinkActive]="['active']" >
+  <ul *ngIf="submited">
+      <h5>---SMART Form---</h5>
       <li *ngFor="let item of smartMessage">
           {{item}}
       </li>
   </ul>
   <br>
-  <button type="submit" class="btn btn-primary">Edit</button>
+  <button (click)="onSmartFormEdit()" class="btn btn-primary">Edit</button>
+  <span></span>
+  <button (click)="onSmartFormNext()" class="btn btn-primary">Next</button>
 </form>

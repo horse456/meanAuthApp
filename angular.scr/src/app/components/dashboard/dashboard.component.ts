@@ -12,13 +12,28 @@ import { Router } from '@angular/router';
 
 
 export class DashboardComponent implements OnInit {
-
+  created: boolean;
+  rehearsal: boolean;
+  smartId: string;
+  
   constructor () {
 
   }
 
   ngOnInit () {
-    
+
+  }
+
+  onCreated () {
+    // when click the create button, hidden the button and show the smart form
+    this.created = true;
+
+  }
+
+  onRehearsal(smartId: string) {
+    this.rehearsal = true;
+    this.smartId = smartId;
+    console.log(this.smartId,'click')
   }
 
 }

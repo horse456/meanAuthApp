@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DashboardService } from '../../../services/dashboard.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
@@ -14,7 +14,9 @@ export class SmartComponent implements OnInit {
   submited: boolean;
   edit: boolean;
   smartMessage:any;
-  smartId: String;
+  smartId: string;
+
+  @Output() onSmartId = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder, 
               private flashMessage: FlashMessagesService,
@@ -30,7 +32,8 @@ export class SmartComponent implements OnInit {
       relevant: ['', [Validators.required]],
       timeBased:  ['', [Validators.required]],
       ratio: ['', [Validators.required]]
-    })
+    });
+ 
   }
 
   onSmartFormSubmit() {
@@ -50,11 +53,12 @@ export class SmartComponent implements OnInit {
         // output the smartMessage
         const messages = JSON.stringify(smart);
         this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.smartMessage)
+        console.log(this.smartMessage);
         
         // get the smartId to edit
-        this.smartId = data.smart._id
+        this.smartId = data.smart._id;
         console.log(this.smartId)
+      
         
         // this.router.navigate(['/dashboard']);
         
@@ -91,8 +95,15 @@ export class SmartComponent implements OnInit {
   }
   
   onSmartFormEdit() {
+    // show the Form
     this.submited = false;
+    // hidden the edit button
     this.edit = true;
   }
 
+  onSmartFormNext() {
+    // pass the smartId to parent module
+    this.onSmartId.emit(this.smartId);
+
+  }
 }

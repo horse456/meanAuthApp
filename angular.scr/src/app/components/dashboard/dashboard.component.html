@@ -1,3 +1,9 @@
 <h2 class="page-header">Dashboard</h2>
 <br>
-<app-smart></app-smart>
+<button class="btn btn-primary" *ngIf="!created" [routerLinkActive]="['active']" (click)="onCreated()" >Create New Preject</button>
+<div *ngIf="created">
+        <app-smart (onSmartId)="onRehearsal($event)"></app-smart>
+</div>
+<div *ngIf="rehearsal" >
+        <p> show rehearsal </p>
+</div>
