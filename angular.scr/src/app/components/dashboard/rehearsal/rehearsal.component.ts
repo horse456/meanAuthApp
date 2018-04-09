@@ -15,10 +15,12 @@ export class RehearsalComponent implements OnInit {
   edit: boolean;
   rehearsalMessage:any;
   rehearsalId: string;
+  
 
   @Output() onRehearsalId = new EventEmitter<string>();
   @Input() subject:string;
   @Input() deadline:string;
+  @Input() getRehearsalId: string;
 
   constructor(private formBuilder: FormBuilder, 
               private flashMessage: FlashMessagesService,
@@ -41,9 +43,8 @@ export class RehearsalComponent implements OnInit {
 
   onRehearsalFormSubmit() {
     const rehearsal = this.rehearsal.value;
-    console.log(this.rehearsal.value, this.rehearsal.valid);
+    console.log('rehearsal Form Submit: ',this.rehearsal.value, this.rehearsal.valid);
 
-    // Submit SmartForm
     this.dashboardService.submitRehearsal(rehearsal).subscribe( data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
@@ -54,12 +55,14 @@ export class RehearsalComponent implements OnInit {
         // output the rehearsalMessage
         const messages = JSON.stringify(rehearsal);
         this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.rehearsalMessage);
+        console.log('submit rehearsalMessage: ',this.rehearsalMessage);
         
         // get the smartId to edit
         this.rehearsalId = data.rehearsal._id;
-        console.log(this.rehearsalId)
+        console.log('rehearsalId: '+this.rehearsalId)
       
+        // pass the rehearsal Id to dashboard
+        this.onRehearsalId.emit(this.rehearsalId);
         
         // this.router.navigate(['/dashboard']);
         
@@ -67,16 +70,18 @@ export class RehearsalComponent implements OnInit {
         this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
       }
     })
+
+    
   }
 
   onRehearsalFormUpdate(){
     const rehearsal = this.rehearsal.value;
-    const Id = this.rehearsalId;
-    console.log(Id);
+    const Id = this.rehearsalId = this.getRehearsalId;
+    console.log('update rehearsalId:  ',Id);
     this.dashboardService.updateRehearsal(rehearsal,Id).subscribe(data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
-       
+      
         // make flagged to hidden/show SmartForm
         this.submited = true;
         this.edit = false;
@@ -84,15 +89,16 @@ export class RehearsalComponent implements OnInit {
         // output the smartMessage
         const messages = JSON.stringify(rehearsal);
         this.rehearsalMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.rehearsalMessage)
-        
-      
-        // this.router.navigate(['/dashboard']);
+        console.log('update rehearsalMessage: '+ this.rehearsalMessage)
+
+        // pass the rehearsal Id to parent module
+        this.onRehearsalId.emit(this.rehearsalId);
         
       } else {
         this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
       }
     })
+
   }
   
   onRehearsalFormEdit() {
@@ -100,12 +106,6 @@ export class RehearsalComponent implements OnInit {
     this.submited = false;
     // hidden the edit button
     this.edit = true;
-  }
-
-  onRehearsalFormNext() {
-    // pass the rehearsal Id to parent module
-    this.onRehearsalId.emit(this.rehearsalId);
-
   }
 
 }

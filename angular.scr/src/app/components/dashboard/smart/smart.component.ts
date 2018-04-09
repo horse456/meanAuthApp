@@ -4,7 +4,6 @@ import { DashboardService } from '../../../services/dashboard.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 // import { Message } from '@angular/compiler/src/i18n/i18n_ast';
-import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -21,19 +20,17 @@ export class SmartComponent implements OnInit {
   smartId: string;
   subject:string;
   timeBased: string;
-  postId: string;
-
-  //get the user_id to write post doc to database
-  userId: string;
-  post: object;
-
+  
+  // when Edit button click, tell the parent to close all form except smart form
+  @Output() onEdit = new EventEmitter<boolean>();
+  // when Next button click, pass the message to dashboard
   @Output() onSmartId = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder, 
               private flashMessage: FlashMessagesService,
               private router: Router,
               private dashboardService: DashboardService,
-              private authService: AuthService) { }
+              ) { }
 
   ngOnInit() {
     this.smart = this.formBuilder.group({
@@ -46,22 +43,13 @@ export class SmartComponent implements OnInit {
       ratio: ['', [Validators.required]]
     });
  
-    //get the user_id to write post doc to database
-    this.authService.getProfile().subscribe(profile => {
-      this.userId = profile.user._id;
-      console.log('userId: ' + this.userId)
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
+
   }
 
   onSmartFormSubmit() {
     const smart = this.smart.value;
-    console.log(this.smart.value, this.smart.valid);
-    // this.smartMessage= JSON.stringify(smart);
-    // console.log(this.smartMessage)
+    console.log('smart value: ',this.smart.value, this.smart.valid);
+
 
     // Submit SmartForm
     this.dashboardService.submitSmart(smart).subscribe( data => {
@@ -74,7 +62,7 @@ export class SmartComponent implements OnInit {
         // output the smartMessage
         const messages = JSON.stringify(smart);
         this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.smartMessage);
+        console.log('smartMessage: ',this.smartMessage);
         
         // get the smartId to edit
         this.smartId = data.smart._id;
@@ -82,7 +70,10 @@ export class SmartComponent implements OnInit {
         this.timeBased = data.smart.timeBased;
         console.log('smartId:'+ this.smartId)
       
-        
+        // pass  message to parent module
+        const message = this.smartId+","+this.subject+","+this.timeBased;
+        this.onSmartId.emit(message);
+        console.log('smartform pass data: ', message)      
         // this.router.navigate(['/dashboard']);
         
       } else {
@@ -94,7 +85,7 @@ export class SmartComponent implements OnInit {
   onSmartFormUpdate(){
     const smart = this.smart.value;
     const Id = this.smartId;
-    console.log(Id);
+    console.log('update smartId: ',Id);
     this.dashboardService.updateSmart(smart,Id).subscribe(data => {
       if (data.success) {
         this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
@@ -106,9 +97,16 @@ export class SmartComponent implements OnInit {
         // output the smartMessage
         const messages = JSON.stringify(smart);
         this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log(this.smartMessage)
+        console.log('updated smartMessage: ',this.smartMessage)
+
+        // revalue the subject and deadline
+        this.subject = this.smart.value.subject;
+        this.timeBased = this.smart.value.timeBased;
         
-      
+        // pass  message to parent module
+        const message = this.smartId+","+this.subject+","+this.timeBased;
+        this.onSmartId.emit(message);
+        console.log('smartform pass data: '+ message)      
         // this.router.navigate(['/dashboard']);
         
       } else {
@@ -122,35 +120,8 @@ export class SmartComponent implements OnInit {
     this.submited = false;
     // hidden the edit button
     this.edit = true;
-  }
-
-  onSmartFormNext() {
-
-    // create post doc to database 
-    this.post = {
-      subject: this.subject,
-      userId: this.userId,
-      smartId: this.smartId
-    };
-    console.log(this.post);
-
-    // pust doc to database
-    this.dashboardService.submitPost(this.post).subscribe( data => {
-      if (data.success) {
-        this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
-        this.postId = data.post._id;
-        console.log('postId: ' + this.postId)
-        // pass  message to parent module
-        const message = this.smartId+","+this.subject+","+this.timeBased+","+this.postId;
-        this.onSmartId.emit(message);
-
-      } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
-      }
-    })
-
-  
-    
+    // tell dashboard to hidden all form except the smart form
+    this.onEdit.emit(true)
   }
 
 

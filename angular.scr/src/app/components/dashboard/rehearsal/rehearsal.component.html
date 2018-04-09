@@ -46,10 +46,11 @@
                     formControlName="ratio">
         </label>
         <br><br>
-        <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormSubmit()">Submit</button>
+        <button *ngIf="!edit && !getRehearsalId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormSubmit()">Submit</button>
+        <button *ngIf="edit || getRehearsalId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormUpdate()">Update</button>
     </div>
   </form>
-  <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormUpdate()">Update</button>
+
   <form *ngIf="submited" [routerLinkActive]="['active']" >
     <ul *ngIf="submited">
         <h5>---Rehearsal Form---</h5>
@@ -59,7 +60,7 @@
     </ul>
     <br>
     <button (click)="onRehearsalFormEdit()" class="btn btn-primary">Edit</button>
-    <span></span>
-    <button (click)="onRehearsalFormNext()" class="btn btn-primary">Next</button>
+    <!-- <span></span>
+    <button (click)="onRehearsalFormNext()" class="btn btn-primary">Next</button> -->
   </form>
   
