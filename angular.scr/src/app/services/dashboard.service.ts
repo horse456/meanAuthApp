@@ -7,6 +7,7 @@ export class DashboardService {
 
   constructor(private http: Http) { }
 
+  // Smart form
   submitSmart(smart){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -22,6 +23,7 @@ export class DashboardService {
       .map( res => res.json());
   }
 
+  // Rehearsal form
   submitRehearsal(doc){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -37,6 +39,7 @@ export class DashboardService {
       .map( res => res.json());
   }
 
+  // Post form
   submitPost(doc){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -49,6 +52,22 @@ export class DashboardService {
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/post/update?postId='+Id);
     return this.http.post('http://localhost:3000/users/dashboard/post/update?postId='+Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  // operation form
+  submitOperation(doc){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/operation/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+  
+  updateOperation(doc,Id){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/operation/update?operationId='+Id);
+    return this.http.post('http://localhost:3000/users/dashboard/operation/update?operationId='+Id, doc, {headers: headers})
       .map( res => res.json());
   }
 

@@ -7,6 +7,6 @@
 <div *ngIf="rehearsal" >
         <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" [getRehearsalId]="this.rehearsalId" (onRehearsalId)="onRehearsal($event)"></app-rehearsal>
 </div>
-<div *ngIf="operation" >
-        <app-operation ></app-operation>
+<div >
+        <app-operation [getOperationId]="operationId" (onOperationId)="onOperation($event)"></app-operation>
 </div>

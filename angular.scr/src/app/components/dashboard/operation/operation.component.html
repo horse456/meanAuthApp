@@ -1,0 +1,32 @@
+<br><br>
+<div *ngIf="!submited" >
+    <h5>---Operation Form---</h5>
+    <br>
+    <div class="form-group">
+      <span>Subject:  {{subject}} </span>
+      <br>
+      <input type="text" 
+              placeholder="detail todo "
+              name= "desc"
+              [(ngModel)]="desc"
+              (keyup.enter)="addTodo()">
+      <ul>
+        <li *ngFor="let item of todo">
+          {{item}}
+        </li>
+      </ul>
+      <button *ngIf="!edit && !getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormSubmit()">Submit</button>
+      <button *ngIf="edit || getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormUpdate()">Update</button>
+    </div>
+  </div>
+
+  <form *ngIf="submited"  >
+    <ul >
+        <h5>---Operation Form---</h5>
+        <li *ngFor="let item of operationMessage">
+            {{item}}
+        </li>
+    </ul>
+    <br>
+    <button (click)="onOperationFormEdit()" class="btn btn-primary">Edit</button>
+  </form>

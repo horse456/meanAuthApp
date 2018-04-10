@@ -114,6 +114,11 @@ export class DashboardComponent implements OnInit {
       })
     }
 
+    const arr = data.split(',');
+    console.log(arr);
+    this.smartId = arr[0];
+    this.subject = arr[1];
+    this.deadline = arr[2].slice(0,10);
     // show the rehearsal form
     this.rehearsal = true;
     
@@ -157,5 +162,35 @@ export class DashboardComponent implements OnInit {
       this.operation = true;
   }
 
+  onOperation(data: string) {
+    if(!this.operationId) {
+      // get the data from operation form
+      this.operationId = data;
+
+      // add datas to post doc and update by the postId
+      this.post = {
+        subject: this.subject,
+        userId: this.userId,
+        smartId: this.smartId,
+        rehearsalId: this.rehearsalId,
+        operationId: this.operationId
+      };
+      console.log(this.post);
+      this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
+        if (data.success) {
+          this.flashMessage.show("You are now updated  ", {cssClass: 'alert-success', timeout: 3000});
+          console.log('update postId: ' + this.postId)
+
+        } else {
+          this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        }
+      });
+
+    } 
+    
+    // show the next form
+    // this.operation = true;
+  }
+  
 }
  
