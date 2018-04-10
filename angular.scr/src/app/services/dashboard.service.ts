@@ -71,4 +71,20 @@ export class DashboardService {
       .map( res => res.json());
   }
 
+   // Resume form
+   submitResume(doc){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/resume/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+  
+  updateResume(doc,Id){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/resume/update?resumeId='+Id);
+    return this.http.post('http://localhost:3000/users/dashboard/resume/update?resumeId='+Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
 }
