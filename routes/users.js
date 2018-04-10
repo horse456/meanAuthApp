@@ -9,6 +9,7 @@ const Smart = require('../models/smart');
 const Rehearsal = require('../models/rehearsal');
 const Post = require('../models/post');
 const Operation = require('../models/operation');
+const Resume = require('../models/resume');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -337,7 +338,7 @@ router.get('/dashboard/operation', passport.authenticate('jwt', {session: false}
     const Id = req.query.operationId;
     console.log('getOperation: ',Id);
     // res.json({smart: req.smart});
-    Operation.getOperationById(Id, (err, post) => {
+    Operation.getOperationById(Id, (err, operation) => {
         if(err) throw err;
         if(!doc) {
             return res.json({success: false, msg: 'Operation Form not found'});
@@ -351,14 +352,82 @@ router.get('/dashboard/operation', passport.authenticate('jwt', {session: false}
 });
 
 router.post('/dashboard/operation/remove', (req, res, next) => {
-    const Id = req.query.postId;
+    const Id = req.query.operationId;
     console.log('remove operation: ',Id);
 
-    Post.removePost(Id, (err, doc) => {
+    Operation.removeOperation(Id, (err, doc) => {
         if (err){
             res.json({success: false, msg: 'Failed to remove operation form'});
         } else {
             res.json({success: true, msg: 'Operation Form removed'})
+        }
+    })
+});
+
+// Resume Form
+router.post('/dashboard/resume/add', (req, res, next) => {
+    let newDoc = new Resume({
+        subject: req.body.subject,
+        userId: req.body.userId,
+        redefine: req.body.redefine,
+        ego: req.body.ego,
+        learn: req.body.learn,
+        habit: req.body.habit,
+        emotion: req.body.emotion,
+        other: req.body.other
+    });
+
+
+    Resume.addResume(newDoc, (err, resume) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Resume form'});
+        } else {
+            res.json({resume, success: true,  msg: 'Resume Form Created'});
+            console.log('add Resume:', resume._id)
+        }
+    })
+});
+
+router.post('/dashboard/resume/update', (req, res, next) => {
+    const Id = req.query.resumeId;
+    let newDoc = req.body
+    console.log('update resume: ',Id, newDoc);
+
+    Resume.updateResume(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update resume form'});
+        } else {
+            res.json({success: true, msg: 'Resume Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/resume', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.resumeId;
+    console.log('getResume: ',Id);
+    // res.json({smart: req.smart});
+    Resume.getResumeById(Id, (err, resume) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Resume Form not found'});
+        } else {
+            res.json({
+                success: true,
+                resume
+            })
+        }
+    })
+});
+
+router.post('/dashboard/resume/remove', (req, res, next) => {
+    const Id = req.query.resumeId;
+    console.log('remove resume: ',Id);
+
+    Resume.removeResume(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove resume form'});
+        } else {
+            res.json({success: true, msg: 'Resume Form removed'})
         }
     })
 });
