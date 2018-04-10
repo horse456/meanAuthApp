@@ -15,8 +15,8 @@ export class OperationComponent implements OnInit {
   operationMessage:any;
   operationId: string;
   operation: object;
-  todo: any;
-  done: any;
+  todo: string[];
+  done: boolean[];
   desc: string;
   result: boolean;
 
@@ -38,10 +38,25 @@ export class OperationComponent implements OnInit {
     this.todo.push(this.desc);
     this.desc = '';
     this.done.push(false)
+  }
 
+  toggleTodo(item) {
+    const i = this.todo.indexOf(item);
+    this.done[i] = !this.done[i];
+  }
+
+  removeTodo(item) {
+    const i = this.todo.indexOf(item);
+    this.todo.splice(i,1);
+    this.done.splice(i,1)
   }
 
   onOperationFormSubmit() {
+    // done[] have one false, then the result is false
+    this.result = true;
+    for ( let item of this.done) {
+      if(!item) { this.result = false};  
+    };
     const doc = this.operation = {
                               step: this.todo,
                               done: this.done,
@@ -56,11 +71,11 @@ export class OperationComponent implements OnInit {
         this.submited = true;
         
         // output the rehearsalMessage
-        const messages = JSON.stringify(doc);
-        console.log(messages);
-        this.operationMessage= messages.slice(2,messages.length-1).split("],");
-        this.operationMessage[0] += ']';
-        console.log('submit operationMessage: ',this.operationMessage);
+        // const messages = JSON.stringify(doc);
+        // console.log(messages);
+        // this.operationMessage= messages.slice(2,messages.length-1).split("],");
+        // this.operationMessage[0] += ']';
+        // console.log('submit operationMessage: ',this.operationMessage);
         
         // get the smartId to edit
         this.operationId = data.operation._id;
@@ -72,7 +87,7 @@ export class OperationComponent implements OnInit {
         // this.router.navigate(['/dashboard']);
         
       } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show("add operation went wrong ", {cssClass: 'alert-danger', timeout: 3000});
       }
     })
 
@@ -80,6 +95,9 @@ export class OperationComponent implements OnInit {
   }
 
   onOperationFormUpdate(){
+    // done[] have one false, then the result is false
+    if (this.done.indexOf(false) < 0 ) {this.result = true} else { this.result = false};
+
     const doc = this.operation =  {
                                   step: this.todo,
                                   done: this.done,
@@ -90,21 +108,21 @@ export class OperationComponent implements OnInit {
       if (data.success) {
         this.flashMessage.show("Operation are now updated  ", {cssClass: 'alert-success', timeout: 3000});
       
-        // make flagged to hidden/show SmartForm
+        // make flagged to hidden/show operation Form
         this.submited = true;
         this.edit = false;
         
-        // output the smartMessage
-        const messages = JSON.stringify(doc);
-        this.operationMessage= messages.slice(2,messages.length-1).split("],");
-        this.operationMessage[0] += ']';
-        console.log('update operatinMessage: '+ this.operationMessage)
+        // output the operatioMessage
+        // const messages = JSON.stringify(doc);
+        // this.operationMessage= messages.slice(2,messages.length-1).split("],");
+        // this.operationMessage[0] += ']';
+        // console.log('update operatinMessage: '+ this.operationMessage)
 
         // pass the rehearsal Id to parent module
         this.onOperationId.emit(this.operationId);
         
       } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show("update operation went wrong ", {cssClass: 'alert-danger', timeout: 3000});
       }
     })
 

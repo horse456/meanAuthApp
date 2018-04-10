@@ -1,30 +1,37 @@
-<br><br>
-<div *ngIf="!submited" >
-    <h5>---Operation Form---</h5>
-    <br>
-    <div class="form-group">
-      <span>Subject:  {{subject}} </span>
-      <br>
-      <input type="text" 
-              placeholder="detail todo "
-              name= "desc"
-              [(ngModel)]="desc"
-              (keyup.enter)="addTodo()">
-      <ul>
-        <li *ngFor="let item of todo">
-          {{item}}
-        </li>
-      </ul>
-      <button *ngIf="!edit && !getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormSubmit()">Submit</button>
-      <button *ngIf="edit || getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormUpdate()">Update</button>
-    </div>
-  </div>
+<br> <h3 *ngIf="!submited">Todos</h3>
+<section  *ngIf="!submited" class="todoapp">
+  <header class="header">
+   
+    <input  type="text" 
+            class="new-todo"
+            placeholder="What needs to be done?"
+            name= "desc"
+            [(ngModel)]="desc"
+            (keyup.enter)="addTodo()">
+  </header>
+  <section class="main" *ngIf="todo?.length > 0">
+    <input class="toggle-all" type="checkbox">
+    <ul class="todo-list">
+      <li *ngFor="let item of todo" [class.completed]="done[this.todo.indexOf(item)]">
+        <div class="view">
+          <input class="toggle" type="checkbox" (click)="toggleTodo(item)" [checked]="!done">
+          <label (click)="toggleTodo(item)">{{item}}</label>
+          <button class="destroy" (click)="removeTodo(item)"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  
+  <button *ngIf="!edit && !getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormSubmit()">Submit</button>
+  <button *ngIf="edit || getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormUpdate()">Update</button>
+ 
+</section>
 
   <form *ngIf="submited"  >
     <ul >
         <h5>---Operation Form---</h5>
-        <li *ngFor="let item of operationMessage">
-            {{item}}
+        <li *ngFor="let item of todo">
+            {{item}} status: {{ done[this.todo.indexOf(item)] }}
         </li>
     </ul>
     <br>
