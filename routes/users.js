@@ -8,6 +8,7 @@ const User = require('../models/user');
 const Smart = require('../models/smart');
 const Rehearsal = require('../models/rehearsal');
 const Post = require('../models/post');
+const Operation = require('../models/operation');
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -92,6 +93,7 @@ router.post('/dashboard/smart/add', (req, res, next) => {
             res.json({success: false, msg: 'Failed to add SMART form'});
         } else {
             res.json({smart, success: true,  msg: 'SMART Created'});
+            console.log('add Smart:', smart._id)
         }
     })
 });
@@ -99,7 +101,7 @@ router.post('/dashboard/smart/add', (req, res, next) => {
 router.post('/dashboard/smart/update', (req, res, next) => {
     const smartId = req.query.smartId;
     let newSmart = req.body
-    console.log(smartId,newSmart);
+    console.log('update smart: ',smartId,newSmart);
 
     Smart.updateSmart(smartId,newSmart, (err, smart) => {
         if (err){
@@ -112,7 +114,7 @@ router.post('/dashboard/smart/update', (req, res, next) => {
 
 router.get('/dashboard/smart', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     const smartId = req.query.smartId;
-    console.log(smartId);
+    console.log('get smart: ',smartId);
     // res.json({smart: req.smart});
     Smart.getSmartById(smartId, (err, smart) => {
         if(err) throw err;
@@ -138,7 +140,7 @@ router.get('/dashboard/smart', passport.authenticate('jwt', {session: false}), (
 
 router.post('/dashboard/smart/remove', (req, res, next) => {
     const smartId = req.query.smartId;
-    console.log(smartId);
+    console.log('remove smart: ',smartId);
 
     Smart.removeSmart(smartId, (err, smart) => {
         if (err){
@@ -168,6 +170,7 @@ router.post('/dashboard/rehearsal/add', (req, res, next) => {
             res.json({success: false, msg: 'Failed to add Rehearsal form'});
         } else {
             res.json({rehearsal, success: true,  msg: 'Rehearsal Form Created'});
+            console.log('add Post:', rehearsal._id)
         }
     })
 });
@@ -175,7 +178,7 @@ router.post('/dashboard/rehearsal/add', (req, res, next) => {
 router.post('/dashboard/rehearsal/update', (req, res, next) => {
     const Id = req.query.rehearsalId;
     let newDoc = req.body
-    console.log(Id, newDoc);
+    console.log('update rehearsal: ',Id, newDoc);
 
     Rehearsal.updateRehearsal(Id, newDoc, (err, doc) => {
         if (err){
@@ -188,7 +191,7 @@ router.post('/dashboard/rehearsal/update', (req, res, next) => {
 
 router.get('/dashboard/Rehearsal', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     const Id = req.query.rehearsalId;
-    console.log(Id);
+    console.log('get rehearsal: ',Id);
     // res.json({smart: req.smart});
     Rehearsal.getRehearsalById(Id, (err, doc) => {
         if(err) throw err;
@@ -215,7 +218,7 @@ router.get('/dashboard/Rehearsal', passport.authenticate('jwt', {session: false}
 
 router.post('/dashboard/rehearsal/remove', (req, res, next) => {
     const Id = req.query.rehearsalId;
-    console.log(Id);
+    console.log('remove rehearsal: ',Id);
 
     Rehearsal.removeRehearsal(Id, (err, doc) => {
         if (err){
@@ -243,9 +246,10 @@ router.post('/dashboard/post/add', (req, res, next) => {
 
     Post.addPost(newDoc, (err, post) => {
         if (err){
-            res.json({success: false, msg: 'Failed to add Rehearsal form'});
+            res.json({success: false, msg: 'Failed to add Post form'});
         } else {
-            res.json({post, success: true,  msg: 'Rehearsal Form Created'});
+            res.json({post, success: true,  msg: 'Post Form Created'});
+            console.log('add Post:', post._id)
         }
     })
 });
@@ -253,7 +257,7 @@ router.post('/dashboard/post/add', (req, res, next) => {
 router.post('/dashboard/post/update', (req, res, next) => {
     const Id = req.query.postId;
     let newDoc = req.body
-    console.log(Id, newDoc);
+    console.log('update post: ',Id, newDoc);
 
     Post.updatePost(Id, newDoc, (err, doc) => {
         if (err){
@@ -266,7 +270,7 @@ router.post('/dashboard/post/update', (req, res, next) => {
 
 router.get('/dashboard/post', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     const Id = req.query.postId;
-    console.log(Id);
+    console.log('get post: ',Id);
     // res.json({smart: req.smart});
     Post.getPostById(Id, (err, post) => {
         if(err) throw err;
@@ -290,6 +294,71 @@ router.post('/dashboard/post/remove', (req, res, next) => {
             res.json({success: false, msg: 'Failed to remove post form'});
         } else {
             res.json({success: true, msg: 'Post Form removed'})
+        }
+    })
+});
+
+// Operation Form
+router.post('/dashboard/operation/add', (req, res, next) => {
+    let newDoc = new Operation({
+        subject: req.body.subject,
+        parentId: req.body.parentId,
+        step: req.body.step,
+        done: req.body.done,
+        result: req.body.result
+    });
+
+
+    Operation.addOperation(newDoc, (err, operation) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Operation form'});
+        } else {
+            res.json({operation, success: true,  msg: 'Operation Form Created'});
+            console.log('add Operation:', operation._id)
+        }
+    })
+});
+
+router.post('/dashboard/operation/update', (req, res, next) => {
+    const Id = req.query.operationId;
+    let newDoc = req.body
+    console.log('update operation: ',Id, newDoc);
+
+    Operation.updateOperation(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update operation form'});
+        } else {
+            res.json({success: true, msg: 'Operation Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/operation', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.operationId;
+    console.log('getOperation: ',Id);
+    // res.json({smart: req.smart});
+    Operation.getOperationById(Id, (err, post) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Operation Form not found'});
+        } else {
+            res.json({
+                success: true,
+                operation
+            })
+        }
+    })
+});
+
+router.post('/dashboard/operation/remove', (req, res, next) => {
+    const Id = req.query.postId;
+    console.log('remove operation: ',Id);
+
+    Post.removePost(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove operation form'});
+        } else {
+            res.json({success: true, msg: 'Operation Form removed'})
         }
     })
 });
