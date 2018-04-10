@@ -35,8 +35,10 @@ export class OperationComponent implements OnInit {
   }
 
   addTodo() {
-    this.todo.push(this.desc),
+    this.todo.push(this.desc);
+    this.desc = '';
     this.done.push(false)
+
   }
 
   onOperationFormSubmit() {
@@ -78,7 +80,10 @@ export class OperationComponent implements OnInit {
   }
 
   onOperationFormUpdate(){
-    const doc = this.operation;
+    const doc = this.operation =  {
+                                  step: this.todo,
+                                  done: this.done,
+                                  result: this.result};
     const Id = this.operationId = this.getOperationId;
     console.log('update operationId:  ',Id);
     this.dashboardService.updateOperation(doc,Id).subscribe(data => {
