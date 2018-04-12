@@ -25,6 +25,7 @@ import { OperationComponent } from './components/dashboard/operation/operation.c
 import { AskComponent } from './components/dashboard/ask/ask.component';
 import { DealComponent } from './components/dashboard/deal/deal.component';
 import { ResumeComponent } from './components/dashboard/resume/resume.component';
+import { TodoComponent } from './components/dashboard/todo/todo.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     OperationComponent,
     AskComponent,
     DealComponent,
-    ResumeComponent
+    ResumeComponent,
+    TodoComponent
   ],
   imports: [
     BrowserModule,

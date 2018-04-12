@@ -1,26 +1,7 @@
-<br> <h3 *ngIf="!submited">Todos</h3>
-<section  *ngIf="!submited" class="todoapp">
-  <header class="header">
-   
-    <input  type="text" 
-            class="new-todo"
-            placeholder="What needs to be done?"
-            name= "desc"
-            [(ngModel)]="desc"
-            (keyup.enter)="addTodo()">
-  </header>
-  <section class="main" *ngIf="todo?.length > 0">
-    <input class="toggle-all" type="checkbox">
-    <ul class="todo-list">
-      <li *ngFor="let item of todo" [class.completed]="done[this.todo.indexOf(item)]">
-        <div class="view">
-          <input class="toggle" type="checkbox" (click)="toggleTodo(item)" [checked]="!done">
-          <label (click)="toggleTodo(item)">{{item}}</label>
-          <button class="destroy" (click)="removeTodo(item)"></button>
-        </div>
-      </li>
-    </ul>
-  </section>
+<section *ngIf="!submited">
+  <app-todo [Todo]="todo" [Done]="done" (todos)="onTodos($event)" (dones)="onDones($event)" >
+    <h3>Todos:</h3>
+  </app-todo>
   
   <button *ngIf="!edit && !getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormSubmit()">Submit</button>
   <button *ngIf="edit || getOperationId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onOperationFormUpdate()">Update</button>

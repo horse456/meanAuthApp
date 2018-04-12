@@ -31,24 +31,14 @@ export class OperationComponent implements OnInit {
   ngOnInit() {
     this.todo = [];
     this.done = [];
-    this.desc = ''
   }
 
-  addTodo() {
-    this.todo.push(this.desc);
-    this.desc = '';
-    this.done.push(false)
+  onTodos (todos: string[]) {
+    this.todo = todos
   }
 
-  toggleTodo(item) {
-    const i = this.todo.indexOf(item);
-    this.done[i] = !this.done[i];
-  }
-
-  removeTodo(item) {
-    const i = this.todo.indexOf(item);
-    this.todo.splice(i,1);
-    this.done.splice(i,1)
+  onDones (dones: boolean[]) {
+    this.done = dones
   }
 
   onOperationFormSubmit() {
