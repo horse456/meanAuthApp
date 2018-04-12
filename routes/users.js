@@ -432,4 +432,72 @@ router.post('/dashboard/resume/remove', (req, res, next) => {
     })
 });
 
+// Deal Form
+router.post('/dashboard/deal/add', (req, res, next) => {
+    let newDoc = new Deal({
+        compass: req.body.compass,
+        importion: req.body.importion,
+        dodont: req.body.dodont,
+        dynamic: req.body.dynamic,
+        imformation: req.body.imformation,
+        result: req.body.result,
+        ouput: req.body.ouput
+    });
+
+
+    Deal.addDeal(newDoc, (err, Deal) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Deal form'});
+        } else {
+            res.json({Deal, success: true,  msg: 'Deal Form Created'});
+            console.log('add Deal:', Deal._id)
+        }
+    })
+});
+
+router.post('/dashboard/deal/update', (req, res, next) => {
+    const Id = req.query.DealId;
+    let newDoc = req.body
+    console.log('update Deal: ',Id, newDoc);
+
+    Deal.updateDeal(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update Deal form'});
+        } else {
+            res.json({success: true, msg: 'Deal Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/deal', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.DealId;
+    console.log('getDeal: ',Id);
+    // res.json({smart: req.smart});
+    Deal.getDealById(Id, (err, Deal) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Deal Form not found'});
+        } else {
+            res.json({
+                success: true,
+                Deal
+            })
+        }
+    })
+});
+
+router.post('/dashboard/Deal/remove', (req, res, next) => {
+    const Id = req.query.DealId;
+    console.log('remove Deal: ',Id);
+
+    Deal.removeDeal(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove Deal form'});
+        } else {
+            res.json({success: true, msg: 'Deal Form removed'})
+        }
+    })
+});
+
+
 module.exports = router;
