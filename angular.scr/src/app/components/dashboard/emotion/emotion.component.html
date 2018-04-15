@@ -1,0 +1,58 @@
+<p>Hp   </p><input type="range" value="50" [(ngModel)]="hp" ><p>Mp</p><br>
+<label>hp is {{hp}}; mp is {{100-hp}}</label>
+<section id="Hp">
+  <p>Recover Hp in order to coquer ourselves!</p>
+  <app-deal></app-deal>
+  <button class="btn btn-primary" (click)="next()" >Next</button>
+  <button class="btn btn-primary" (click)="faild()" >Faild</button>
+</section>
+<p *ngIf="Next">Now, we recover Hp!! </p><br>
+<section id="Mp" *ngIf="Next" >
+  <p>Recover Mp in order to coquer ourselves!</p>
+  <app-deal *ngIf="!Successe" ></app-deal>
+  <button class="btn btn-primary" (click)="successe()" >Next</button>
+  <button class="btn btn-primary" (click)="faild()" >Faild</button>
+</section>
+<p *ngIf="Successe">Now, we recover Hp!! </p><br>
+<section id="faild" *ngIf="Faild" >
+  <p>We have to accept it, maybe we will get through 5 steps of grief</p>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">angry:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea>
+  </div>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">deny:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
+  </div>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">bargain:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
+  </div>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">depress:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
+  </div>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">accept:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
+  </div>
+</section>
+<div >
+  <button *ngIf="Successe" class="btn btn-primary" (click)="nextStep()" >Next Step</button>
+  <button *ngIf="Faild" class="btn btn-primary" (click)="done()" >Faild Done</button>
+</div>

@@ -1,0 +1,51 @@
+<p>
+  Find out the way to successe!
+</p>
+<p>emotion   </p><input type="range" value="50" [(ngModel)]="ration" ><p>   logic</p><br>
+<label>emotion is {{ration}}%; logic is {{100-ration}}%</label>
+<section id="process" *ngFor="let item of items">
+  <app-emotion *ngIf="item === true"></app-emotion>
+  <app-logic *ngIf="item === false"></app-logic>
+  <button class="btn btn-primary">Emotion</button>
+  <button class="btn btn-primary">Logic</button>
+  <button class="btn btn-primary">Done</button>  
+</section>
+
+<section id="faild" *ngIf="Faild" >
+    <p>We have to accept it, maybe we will get through 5 steps of grief</p>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">angry:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">deny:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">bargain:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">depress:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">accept:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
+    </div>
+  </section>

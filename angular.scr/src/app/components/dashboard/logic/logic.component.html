@@ -1,0 +1,136 @@
+<p>
+    Logic processes!
+  </p>
+  <section id="button" *ngIf="!clicked">
+    <button class="btn btn-primary" (click)="exist()" >Explore Existed</button>
+    <button class="btn btn-primary" (click)="unknow()">Explore Unknow</button>
+    <button class="btn btn-primary" (click)="program()">Execute Program</button>
+  </section>
+  
+  <section id="exist" *ngIf="Exist">
+    <br>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">state:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel state" name="state" [(ngModel)]="state" required></textarea>
+    </div><br>
+    <p>Collect Information:</p>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">web:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel web" name="web" [(ngModel)]="web" required></textarea>
+    </div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">expert:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel expert" name="expert" [(ngModel)]="expert" required></textarea>
+    </div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">friend:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel friend" name="friend" [(ngModel)]="friend" required></textarea>
+    </div>
+    <p>We can imitate then vernier regulation</p>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">imitate:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel imitate" name="imitate" [(ngModel)]="imitate" required></textarea>
+    </div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">varnier:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel varnier" name="varnier" [(ngModel)]="varnier" required></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="next()" >Next</button>
+    <button class="btn btn-primary" (click)="faild()" >Faild</button>
+  </section>
+  <!-- after click next and show the list -->
+  <section *ngIf="!Exist">
+    <ul>
+      <li>State:  {{state}}</li>
+      <li>Collection information:</li>
+      <li> webnet:  {{web}}</li>
+      <li> expert:  {{expert}}</li>
+      <li> friend:  {{friend}}</li>
+      <li>Policy:</li>
+      <li> imitate:  {{imitate}}</li>
+      <li> vernier:  {{vernier}}</li>
+    </ul>
+    <button class="btn btn-primary" (click)="edit()" >Edit</button>
+  </section>
+  <section id="unknow" *ngIf="Unknow">
+    <br>
+    <p>Get more informatin:</p>
+    <app-deal></app-deal>
+    <button class="btn btn-primary" >Successe</button>
+    <button class="btn btn-primary" >Faild</button>
+  </section>
+  
+  <section id="program" *ngIf="Program">
+    <br>
+    <p>Make your picture clear:</p>
+    <app-rehearsal></app-rehearsal>
+    <button class="btn btn-primary" >Next</button>
+    <app-deal *ngIf="Next"></app-deal>
+    <button *ngIf="Next" class="btn btn-primary" >Next2</button>
+    <div *ngIf="!Next">
+      <button class="btn btn-primary" >Successe</button>
+      <button class="btn btn-primary" >Faild</button>
+    </div>
+  </section>
+    
+  <section id="faild" *ngIf="Faild" >
+    <p>We have to accept it, maybe we will get through 5 steps of grief</p>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">angry:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">deny:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">bargain:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">depress:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">accept:</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"
+          placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
+    </div>
+  </section>
+  
+  <div *ngIf="Successe || Faild" >
+    <button *ngIf="Successe" class="btn btn-primary" (click)="nextStep()" >Next Step</button>
+    <button *ngIf="Faild" class="btn btn-primary" (click)="done()" >Faild Done</button>
+  </div>

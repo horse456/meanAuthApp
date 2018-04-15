@@ -27,14 +27,16 @@ import { DealComponent } from './components/dashboard/deal/deal.component';
 import { ResumeComponent } from './components/dashboard/resume/resume.component';
 import { TodoComponent } from './components/dashboard/todo/todo.component';
 import { DynamicComponent } from './components/dashboard/dynamic/dynamic.component';
+import { EmotionComponent } from './components/dashboard/emotion/emotion.component';
+import { LogicComponent } from './components/dashboard/logic/logic.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]}
-]
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
+];
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ const appRoutes: Routes = [
     DealComponent,
     ResumeComponent,
     TodoComponent,
-    DynamicComponent
+    DynamicComponent,
+    EmotionComponent,
+    LogicComponent
   ],
   imports: [
     BrowserModule,
