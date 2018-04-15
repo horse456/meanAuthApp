@@ -15,8 +15,9 @@ export class ResumeComponent implements OnInit {
   resumeMessage:any;
   resumeId: string;
   resume: object;
-  redefine01: any;
-  redefine02: any;
+  redefine01: string[];
+  redefine02: string[];
+  done: boolean[];
   desc01: string;
   desc02: string;
   
@@ -34,18 +35,21 @@ export class ResumeComponent implements OnInit {
   ngOnInit() {
     this.redefine01 = [];
     this.redefine02 = [];
+    this.done = [];
     this.desc01 = '';
     this.desc02 = ''
   }
 
-  addToredefine01() {
-    this.redefine01.push(this.desc01);
-    this.desc01 = ''
+  addDone() {
+    
+  }
+  
+  addRedefine01(data: string[]) {
+    this.redefine01 = data;
   }
 
-  addToredefine02() {
-    this.redefine02.push(this.desc02)
-    this.desc02 = ''
+  addRedefine02(data: string[]) {
+    this.redefine02 = data;
   }
 
   onResumeFormSubmit() {

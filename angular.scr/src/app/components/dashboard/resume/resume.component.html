@@ -4,29 +4,15 @@
 <div *ngIf="!submited" >
     
     <div class="form-group">
-      <label>redefine: </label><br>
-      重新界定观念：
-      <input type="text" 
-              placeholder="detail "
-              name= "redefine01"
-              [(ngModel)]="desc01"
-              (keyup.enter)="addToredefine01()">
-      <ul>
-        <li *ngFor="let item of redefine01">
-          {{item}}
-        </li>
-      </ul>
-      新的世界：
-      <input type="text" 
-              placeholder="detail "
-              name= "redefine02"
-              [(ngModel)]="desc02"
-              (keyup.enter)="addToredefine02()">
-      <ul>
-        <li *ngFor="let item of redefine02">
-          {{item}}
-        </li>
-      </ul>
+      <h3>redefine: </h3><br>
+      
+      <app-todo [Todo]="redefine01" [Done]="done"  (todos)="addRedefine01($event)" (dones)="addDone()" >
+          <h4>重新界定观念：</h4>
+      </app-todo>
+      
+      <app-todo [Todo]="redefine02"  [Done]="done"  (todos)="addRedefine02($event)" (dones)="addDone()"   >
+          <h4>新的世界：</h4>
+      </app-todo>
       <button *ngIf="!edit && !getResumeId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onResumeFormSubmit()">Submit</button>
       <button *ngIf="edit || getResumeId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onResumeFormUpdate()">Update</button>
     </div>
