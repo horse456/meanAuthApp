@@ -564,9 +564,9 @@ router.post('/dashboard/emotion/remove', (req, res, next) => {
     })
 });
 
-// Logo Form
-router.post('/dashboard/logo/add', (req, res, next) => {
-    let newDoc = new Logo({
+// Logic Form
+router.post('/dashboard/logic/add', (req, res, next) => {
+    let newDoc = new Logic({
         existState: req.body.existState,
         existCollect: req.body.existCollect,
         existPolicy: req.body.existPolicy,
@@ -578,56 +578,56 @@ router.post('/dashboard/logo/add', (req, res, next) => {
     });
 
 
-    Logo.addLogo(newDoc, (err, Logo) => {
+    Logic.addLogic(newDoc, (err, Logic) => {
         if (err){
-            res.json({success: false, msg: 'Failed to add Logo form'});
+            res.json({success: false, msg: 'Failed to add Logic form'});
         } else {
-            res.json({Logo, success: true,  msg: 'Logo Form Created'});
-            console.log('add Logo:', Logo._id)
+            res.json({Logic, success: true,  msg: 'Logic Form Created'});
+            console.log('add Logic:', Logic._id)
         }
     })
 });
 
-router.post('/dashboard/logo/update', (req, res, next) => {
-    const Id = req.query.LogoId;
+router.post('/dashboard/logic/update', (req, res, next) => {
+    const Id = req.query.LogicId;
     let newDoc = req.body
-    console.log('update Logo: ',Id, newDoc);
+    console.log('update Logic: ',Id, newDoc);
 
-    Logo.updateLogo(Id, newDoc, (err, doc) => {
+    Logic.updateLogic(Id, newDoc, (err, doc) => {
         if (err){
-            res.json({success: false, msg: 'Failed to update Logo form'});
+            res.json({success: false, msg: 'Failed to update Logic form'});
         } else {
-            res.json({success: true, msg: 'Logo Form Updated'})
+            res.json({success: true, msg: 'Logic Form Updated'})
         }
     })
 });
 
-router.get('/dashboard/logo', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    const Id = req.query.LogoId;
-    console.log('getLogo: ',Id);
+router.get('/dashboard/logic', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.LogicId;
+    console.log('getLogic: ',Id);
     // res.json({smart: req.smart});
-    Logo.getLogoById(Id, (err, Logo) => {
+    Logic.getLogicById(Id, (err, Logic) => {
         if(err) throw err;
         if(!doc) {
-            return res.json({success: false, msg: 'Logo Form not found'});
+            return res.json({success: false, msg: 'Logic Form not found'});
         } else {
             res.json({
                 success: true,
-                Logo
+                Logic
             })
         }
     })
 });
 
-router.post('/dashboard/logo/remove', (req, res, next) => {
-    const Id = req.query.LogoId;
-    console.log('remove Logo: ',Id);
+router.post('/dashboard/logic/remove', (req, res, next) => {
+    const Id = req.query.LogicId;
+    console.log('remove Logic: ',Id);
 
-    Logo.removeLogo(Id, (err, doc) => {
+    Logic.removeLogic(Id, (err, doc) => {
         if (err){
-            res.json({success: false, msg: 'Failed to remove Logo form'});
+            res.json({success: false, msg: 'Failed to remove Logic form'});
         } else {
-            res.json({success: true, msg: 'Logo Form removed'})
+            res.json({success: true, msg: 'Logic Form removed'})
         }
     })
 });
