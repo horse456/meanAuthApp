@@ -8,14 +8,14 @@ export class DashboardService {
   constructor(private http: Http) { }
 
   // Smart form
-  submitSmart(smart){
+  submitSmart(smart) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/users/dashboard/smart/add', smart, {headers: headers})
       .map( res => res.json());
   }
-  
-  updateSmart(smart,Id){
+
+  updateSmart(smart, Id) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/smart/update?smartId='+Id);
@@ -24,14 +24,14 @@ export class DashboardService {
   }
 
   // Rehearsal form
-  submitRehearsal(doc){
+  submitRehearsal(doc) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/users/dashboard/rehearsal/add', doc, {headers: headers})
       .map( res => res.json());
   }
-  
-  updateRehearsal(doc,Id){
+
+  updateRehearsal(doc, Id) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/rehearsal/update?rehearsalId='+Id);
@@ -40,14 +40,14 @@ export class DashboardService {
   }
 
   // Post form
-  submitPost(doc){
+  submitPost(doc) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/users/dashboard/post/add', doc, {headers: headers})
       .map( res => res.json());
   }
-  
-  updatePost(doc,Id){
+
+  updatePost(doc, Id) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/post/update?postId='+Id);
@@ -62,8 +62,8 @@ export class DashboardService {
     return this.http.post('http://localhost:3000/users/dashboard/operation/add', doc, {headers: headers})
       .map( res => res.json());
   }
-  
-  updateOperation(doc,Id){
+
+  updateOperation(doc, Id) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/operation/update?operationId='+Id);
@@ -72,19 +72,84 @@ export class DashboardService {
   }
 
    // Resume form
-   submitResume(doc){
+   submitResume(doc) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/users/dashboard/resume/add', doc, {headers: headers})
       .map( res => res.json());
   }
-  
-  updateResume(doc,Id){
+
+  updateResume(doc, Id) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/resume/update?resumeId='+Id);
     return this.http.post('http://localhost:3000/users/dashboard/resume/update?resumeId='+Id, doc, {headers: headers})
       .map( res => res.json());
   }
+
+  // Deal form
+  submitDeal(doc) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/deal/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  updateDeal(doc, Id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/Deal/update?DealId=' + Id);
+    return this.http.post('http://localhost:3000/users/dashboard/Deal/update?DealId=' + Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  // Emotion form
+  submitEmotion(doc) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/emotion/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  updateEmotion(doc, Id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/emotion/update?EmotionId=' + Id);
+    return this.http.post('http://localhost:3000/users/dashboard/emotion/update?EmotionId=' + Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+   // Logic form
+  submitLogic(doc) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/dashboard/logic/add', doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  updateLogic(doc, Id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/logic/update?logicId=' + Id);
+    return this.http.post('http://localhost:3000/users/dashboard/logic/update?logicId=' + Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+ // Ask form
+ submitAsk(doc) {
+  let headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  return this.http.post('http://localhost:3000/users/dashboard/ask/add', doc, {headers: headers})
+    .map( res => res.json());
+}
+
+updateAsk(doc, Id) {
+  let headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  console.log('http://localhost:3000/users/dashboard/ask/update?askId=' + Id);
+  return this.http.post('http://localhost:3000/users/dashboard/ask/update?askId=' + Id, doc, {headers: headers})
+    .map( res => res.json());
+}
+
 
 }
