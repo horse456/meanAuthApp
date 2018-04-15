@@ -499,5 +499,201 @@ router.post('/dashboard/Deal/remove', (req, res, next) => {
     })
 });
 
+// Emotion Form
+router.post('/dashboard/emotion/add', (req, res, next) => {
+    let newDoc = new Emotion({
+        hp: req.body.hp,
+        mp: req.body.mp,
+        hpDeal: req.body.hpDeal,
+        mpDeal: req.body.mpDeal,
+        result: req.body.result
+    });
+
+
+    Emotion.addEmotion(newDoc, (err, Emotion) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Emotion form'});
+        } else {
+            res.json({Emotion, success: true,  msg: 'Emotion Form Created'});
+            console.log('add Emotion:', Emotion._id)
+        }
+    })
+});
+
+router.post('/dashboard/emotion/update', (req, res, next) => {
+    const Id = req.query.EmotionId;
+    let newDoc = req.body
+    console.log('update Emotion: ',Id, newDoc);
+
+    Emotion.updateEmotion(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update Emotion form'});
+        } else {
+            res.json({success: true, msg: 'Emotion Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/emotion', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.EmotionId;
+    console.log('getEmotion: ',Id);
+    // res.json({smart: req.smart});
+    Emotion.getEmotionById(Id, (err, Emotion) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Emotion Form not found'});
+        } else {
+            res.json({
+                success: true,
+                Emotion
+            })
+        }
+    })
+});
+
+router.post('/dashboard/emotion/remove', (req, res, next) => {
+    const Id = req.query.EmotionId;
+    console.log('remove Emotion: ',Id);
+
+    Emotion.removeEmotion(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove Emotion form'});
+        } else {
+            res.json({success: true, msg: 'Emotion Form removed'})
+        }
+    })
+});
+
+// Logo Form
+router.post('/dashboard/logo/add', (req, res, next) => {
+    let newDoc = new Logo({
+        existState: req.body.existState,
+        existCollect: req.body.existCollect,
+        existPolicy: req.body.existPolicy,
+        dexistResult: req.body.dexistResult,
+        unknowDeal: req.body.unknowDeal,
+        programRehearsal: req.body.programRehearsal,
+        programDeal: req.body.programDeal,
+        result: req.body.result
+    });
+
+
+    Logo.addLogo(newDoc, (err, Logo) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Logo form'});
+        } else {
+            res.json({Logo, success: true,  msg: 'Logo Form Created'});
+            console.log('add Logo:', Logo._id)
+        }
+    })
+});
+
+router.post('/dashboard/logo/update', (req, res, next) => {
+    const Id = req.query.LogoId;
+    let newDoc = req.body
+    console.log('update Logo: ',Id, newDoc);
+
+    Logo.updateLogo(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update Logo form'});
+        } else {
+            res.json({success: true, msg: 'Logo Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/logo', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.LogoId;
+    console.log('getLogo: ',Id);
+    // res.json({smart: req.smart});
+    Logo.getLogoById(Id, (err, Logo) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Logo Form not found'});
+        } else {
+            res.json({
+                success: true,
+                Logo
+            })
+        }
+    })
+});
+
+router.post('/dashboard/logo/remove', (req, res, next) => {
+    const Id = req.query.LogoId;
+    console.log('remove Logo: ',Id);
+
+    Logo.removeLogo(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove Logo form'});
+        } else {
+            res.json({success: true, msg: 'Logo Form removed'})
+        }
+    })
+});
+
+// Ask Form
+router.post('/dashboard/ask/add', (req, res, next) => {
+    let newDoc = new Ask({
+        ration: req.body.ration,
+        process: req.body.process,
+        result: req.body.result
+    });
+
+
+    Ask.addAsk(newDoc, (err, Ask) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to add Ask form'});
+        } else {
+            res.json({Ask, success: true,  msg: 'Ask Form Created'});
+            console.log('add Ask:', Ask._id)
+        }
+    })
+});
+
+router.post('/dashboard/ask/update', (req, res, next) => {
+    const Id = req.query.AskId;
+    let newDoc = req.body
+    console.log('update Ask: ',Id, newDoc);
+
+    Ask.updateAsk(Id, newDoc, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to update Ask form'});
+        } else {
+            res.json({success: true, msg: 'Ask Form Updated'})
+        }
+    })
+});
+
+router.get('/dashboard/ask', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    const Id = req.query.AskId;
+    console.log('getAsk: ',Id);
+    // res.json({smart: req.smart});
+    Ask.getAskById(Id, (err, Ask) => {
+        if(err) throw err;
+        if(!doc) {
+            return res.json({success: false, msg: 'Ask Form not found'});
+        } else {
+            res.json({
+                success: true,
+                Ask
+            })
+        }
+    })
+});
+
+router.post('/dashboard/ask/remove', (req, res, next) => {
+    const Id = req.query.AskId;
+    console.log('remove Ask: ',Id);
+
+    Ask.removeAsk(Id, (err, doc) => {
+        if (err){
+            res.json({success: false, msg: 'Failed to remove Ask form'});
+        } else {
+            res.json({success: true, msg: 'Ask Form removed'})
+        }
+    })
+});
+
 
 module.exports = router;
