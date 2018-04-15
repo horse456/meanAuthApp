@@ -26,6 +26,7 @@ import { AskComponent } from './components/dashboard/ask/ask.component';
 import { DealComponent } from './components/dashboard/deal/deal.component';
 import { ResumeComponent } from './components/dashboard/resume/resume.component';
 import { TodoComponent } from './components/dashboard/todo/todo.component';
+import { DynamicComponent } from './components/dashboard/dynamic/dynamic.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     AskComponent,
     DealComponent,
     ResumeComponent,
-    TodoComponent
+    TodoComponent,
+    DynamicComponent
   ],
   imports: [
     BrowserModule,

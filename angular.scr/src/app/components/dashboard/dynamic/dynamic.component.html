@@ -1,0 +1,54 @@
+<ng-content></ng-content>
+  
+  <label>Dynamic:</label>
+  <section *ngIf="!submited">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">State:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="decleared status" name="state" [(ngModel)]="state" required></textarea>
+    </div><br>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Action:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="Choose action" name="action" [(ngModel)]="action" required></textarea>
+    </div><br>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Reward:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="Get reward" name="reward" [(ngModel)]="reward" required></textarea>
+    </div><br>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Done:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="judge it done, if not rebuild new states" name="done" [(ngModel)]="done" required></textarea>
+    </div>
+    <br>
+    
+  </section>
+  
+  <section *ngIf="submited">
+    <ul *ngFor="let item of dynamics; let i=index" >
+      <li>{{names[i]}}  :  {{item}}</li>
+    </ul>
+  </section>
+  <section *ngIf="!finished">
+    <button *ngIf="!submited" class="btn btn-primary" (click)="push()">push</button><br>
+    <button *ngIf="submited" class="btn btn-primary" (click)="push()">edit</button><span>   </span>
+    <button *ngIf="submited" class="btn btn-primary" (click)="finish()">finish</button><br>
+    <br>
+  </section>
+  
+<section *ngIf="finished">
+  <button class="btn btn-primary" (click)="addDynamic()">Add Dynamic</button>
+  <button class="btn btn-primary" (click)="delDynamic()">Del Dynamic</button>
+</section>
+  
+  

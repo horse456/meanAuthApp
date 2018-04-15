@@ -1,0 +1,115 @@
+<ng-content></ng-content>
+<div *ngIf="!submited">
+  <h3>Deal Process:</h3>
+  <section>
+    <label>Compass:</label>
+    <input type="text" [(ngModel)]="compass" name="compass" placeholder="write down your compass" required><br><br>
+  </section>
+
+  <section id="importion">
+    <label>Importion level 1:</label>
+    <input type="text" [(ngModel)]="importion01" name="importion01" placeholder="importion & urgent" required><br>
+    <label>Importion level 3:</label>
+    <input type="text" [(ngModel)]="importion02" name="importion02" placeholder="not importion but urgent" required><br>
+    <label>Importion level 3:</label>
+    <input type="text" [(ngModel)]="importion03" name="importion03" placeholder="importion but not urgent" ><br>
+    <label>Importion level 4:</label>
+    <input type="text" [(ngModel)]="importion04" name="importion04" placeholder="not importion & not urgent" ><br>
+    <br>
+  </section>
+
+  <section id="dodont">
+    <label>Do & Don't:</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" >Do:  </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Do the right things!" aria-label="Username" aria-describedby="basic-addon1"
+            name= "Do"
+            [(ngModel)]="desc01"
+            (keyup.enter)="addDo()">
+    </div>
+
+    <section class="main" *ngIf="todo?.length > 0">
+      <ul class="todo-list">
+        <li *ngFor="let do of Do" >
+          <div class="view">
+            <label>{{do}}</label>
+            <button class="destroy" (click)="removeDo(item)"></button>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" >Don't: </span>
+        </div>
+        <input type="text" class="form-control" placeholder="leave it alone!" aria-label="Username" aria-describedby="basic-addon1"
+            name= "Dont"
+            [(ngModel)]="desc02"
+            (keyup.enter)="addDont()">
+    </div>
+
+    <section class="main" *ngIf="Dont?.length > 0">
+      <ul class="todo-list">
+        <li *ngFor="let dont of Dont">
+          <div class="view">
+            <label>{{dont}}</label>
+            <button class="destroy" (click)="removeDont(item)"></button>
+          </div>
+        </li>
+      </ul>
+      <br>
+    </section>
+    
+  </section>
+
+  <div *ngFor="let item of dynamic" > 
+    <app-dynamic [dynamic]="dynamic" (Dynamics)="getDynamic($event)" (delDynamics)="delDynamic($event)" ></app-dynamic>
+  <br>
+  </div>
+
+  <section id="information">
+    <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Information: </span>
+    </div>
+    <textarea class="form-control" aria-label="With textarea"
+      placeholder="Get all informations" name="information" [(ngModel)]="information" required></textarea>
+    </div><br>
+  </section>
+
+  <section id="result">
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio"  name="result" class="custom-control-input" [(ngModel)]="result" value="true">
+      <label class="custom-control-label" for="true">Sucesse</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio"  name="result" class="custom-control-input" [(ngModel)]="result" value="false" checked>
+      <label class="custom-control-label" for="false">Failed</label>
+    </div>
+    <br>
+  </section>
+
+  <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormSubmit()">Submit</button>
+  <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormUpdate()">Update</button>
+  <br>
+  <br>
+</div>
+
+<form *ngIf="submited" [routerLinkActive]="['active']" >
+  <ul *ngIf="submited">
+      <h5>---Deal Form---</h5>
+      <li *ngFor="let item of dealMessage">
+          {{item}}
+      </li>
+  </ul>
+  <br>
+  <button (click)="onDealFormEdit()" class="btn btn-primary">Edit</button>
+</form>
+<br>
+<br>
+<button class="btn btn-primary" (click)="add()">Add</button>
+<button class="btn btn-primary" (click)="del()">Del</button>
+
