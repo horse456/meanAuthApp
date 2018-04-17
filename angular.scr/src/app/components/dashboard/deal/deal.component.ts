@@ -25,11 +25,11 @@ export class DealComponent implements OnInit {
 
   submited: boolean;
   edit: boolean;
-  dealMessage: any;
+  dealMessage: any[];
+  name: string[];
   dealId: string;
   Deal: object;
-  @Output() DealId = new EventEmitter<string>();
-
+  @Output() DealData = new EventEmitter<object>();
   @Output() items = new EventEmitter<Array<string>>();
   @Input() item: string[];
 
@@ -44,7 +44,8 @@ export class DealComponent implements OnInit {
     this.dynamics = [];
     this.desc01 = '';
     this.desc02 = '';
-
+    this.result = false;
+    this.name = ['Compass   ', 'Importion  ', 'Do & Don\'t  ', 'Dynamic   ', 'information ', 'Result   '];
   }
 
   // add and delete do&don't form
@@ -105,9 +106,13 @@ export class DealComponent implements OnInit {
 
   // add the whole deal form
   add() {
-    this.item.push('a');
-    console.log(this.item);
-    this.items.emit(this.item);
+    // If this.item !=== undefined
+    if (!this.item) {
+      this.item.push('a');
+      console.log(this.item);
+      this.items.emit(this.item);
+    }
+
   }
 
   del() {
@@ -129,6 +134,12 @@ export class DealComponent implements OnInit {
       result: this.result
     };
     console.log('Deal value: ', this.Deal);
+    this.dealMessage = [this.compass,
+       [this.importion01, this.importion02, this.importion03, this.importion04],
+      [this.do, this.dont],
+      this.dynamics,
+      this.information,
+      this.result];
 
 
     // Submit DealForm
@@ -140,18 +151,17 @@ export class DealComponent implements OnInit {
         this.submited = true;
 
         // output the DealMessage
-        const messages = JSON.stringify(doc);
-        this.dealMessage = messages.slice(2, messages.length - 1).split(',');
-        console.log('DealMessage: ', this.dealMessage);
+        // const messages = JSON.stringify(doc);
 
         // get the DealId to edit
         this.dealId = data.Deal._id;
         console.log('DealId:' + this.dealId);
 
         // pass  message to parent module
-        const message = this.dealId;
-        this.DealId.emit(message);
-        console.log('Dealform pass data: ', message);
+        if (this.item) {
+          this.DealData.emit(data.Deal);
+          console.log('Dealform pass data: ', data.Deal);
+        }
         // this.router.navigate(['/dashboard']);
 
       } else {
@@ -169,6 +179,12 @@ export class DealComponent implements OnInit {
       information: this.information,
       result: this.result
     };
+    this.dealMessage = [this.compass,
+      [this.importion01, this.importion02, this.importion03, this.importion04],
+     [this.do, this.dont],
+     this.dynamics,
+     this.information,
+     this.result];
     const Id = this.dealId;
     console.log('update dealId: ', Id);
     this.dashboardService.updateDeal(doc, Id).subscribe(data => {
@@ -180,19 +196,13 @@ export class DealComponent implements OnInit {
         this.edit = false;
 
         // output the DealMessage
-        const messages = JSON.stringify(doc);
-        this.dealMessage = messages.slice(2, messages.length - 1).split(',');
         console.log('updated DealMessage: ', this.dealMessage);
 
-        // revalue the subject and deadline
-        // this.subject = this.Deal.value.subject;
-        // this.timeBased = this.Deal.value.timeBased;
-
         // pass  message to parent module
-        const message = this.dealId ;
-        this.DealId.emit(message);
-        console.log('Dealform pass data: ' + message);
-        // this.router.navigate(['/dashboard']);
+        if (this.item) {
+          this.DealData.emit(data.Deal);
+          console.log('Dealform pass data: ', data.Deal);
+        }
 
       } else {
         this.flashMessage.show('update deal form Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
@@ -205,6 +215,8 @@ export class DealComponent implements OnInit {
     this.submited = false;
     // hidden the edit button
     this.edit = true;
+    // clear the dynamic datas
+    this.dynamics = [];
   }
 
 

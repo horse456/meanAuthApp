@@ -19,7 +19,7 @@ const DealSchema = mongoose.Schema({
         type: Array
     },
     imformation: {
-        type: string
+        type: String
     },
     result: {
         type: Boolean
