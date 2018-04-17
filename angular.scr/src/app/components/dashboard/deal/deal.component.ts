@@ -29,8 +29,10 @@ export class DealComponent implements OnInit {
   name: string[];
   dealId: string;
   Deal: object;
+  itemTitle: string;
+  addClick: boolean;
   @Output() DealData = new EventEmitter<object>();
-  @Output() items = new EventEmitter<Array<string>>();
+  @Output() DelDeal = new EventEmitter<string>();
   @Input() item: string[];
 
   constructor(
@@ -107,21 +109,44 @@ export class DealComponent implements OnInit {
   // add the whole deal form
   add() {
     // If this.item !=== undefined
-    if (!this.item) {
-      this.item.push('a');
-      console.log(this.item);
-      this.items.emit(this.item);
-    }
+    if (this.submited) {
+      // create one unquie number, make the dynamicTitle is unquired
+      const d = new Date();
+      this.itemTitle = this.item[this.item.length - 1];
 
+      // create new form
+      this.item.push('a' + d.getTime());
+      console.log('show items: ', this.item);
+      // after clicked, make flag, and hidden the add button
+      this.addClick = true;
+    } else {
+      this.flashMessage.show('you can\'t add deal form ', {cssClass: 'alert-danger', timeout: 3000});
+    }
   }
 
   del() {
     // when item only have one, don't delete
     if (this.item.length !== 1) {
+      // delete the selected dynamic form by dynamicTitle
+      const i = this.item.indexOf(this.itemTitle);
+      if (this.addClick) {
+        this.item.splice(i, 1);
+      } else {
+        this.item.pop();
+      }
+      // let parent delete one deal by ID
+      this.DelDeal.emit(this.dealId);
+    } else {
+      // when dyanmic.length is 1
       this.item.pop();
+      this.item.push('a');
+      this.DelDeal.emit(this.dealId);
+      this.submited = false;
+      // show the add button
+      this.addClick = false;
     }
-    console.log(this.item);
-    this.items.emit(this.item);
+    console.log(this.dynamic);
+
   }
 
   onDealFormSubmit() {
@@ -170,7 +195,7 @@ export class DealComponent implements OnInit {
     });
   }
 
-  onDealFormUpdate() {
+  onDealFormUpdate () {
     const doc = this.Deal = {
       compass: this.compass,
       importion: [this.importion01, this.importion02, this.importion03, this.importion04],
