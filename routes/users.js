@@ -10,6 +10,10 @@ const Rehearsal = require('../models/rehearsal');
 const Post = require('../models/post');
 const Operation = require('../models/operation');
 const Resume = require('../models/resume');
+const Deal = require('../models/deal');
+const Logic = require('../models/logic');
+const Emotion = require('../models/emotion');
+const Ask = require('../models/ask');
 
 // Register
 router.post('/register', (req, res, next) => {
