@@ -47,7 +47,7 @@
   </section>
   
 <section *ngIf="finished">
-  <button class="btn btn-primary" (click)="addDynamic()">Add Dynamic</button>
+  <button *ngIf="!addClick" class="btn btn-primary" (click)="addDynamic()">Add Dynamic</button>
   <button class="btn btn-primary" (click)="delDynamic()">Del Dynamic</button>
 </section>
   
