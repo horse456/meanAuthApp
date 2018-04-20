@@ -49,7 +49,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" >Do:  </span>
         </div>
-        <input type="text" class="form-control" placeholder="Do the right things!" aria-label="Username" aria-describedby="basic-addon1"
+        <input type="text" class="form-control" placeholder="Do the right things! Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
             name= "Do"
             [(ngModel)]="desc01"
             (keyup.enter)="addDo()">
@@ -70,7 +70,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" >Don't: </span>
         </div>
-        <input type="text" class="form-control" placeholder="leave it alone!" aria-label="Username" aria-describedby="basic-addon1"
+        <input type="text" class="form-control" placeholder="leave it alone!  Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
             name= "Dont"
             [(ngModel)]="desc02"
             (keyup.enter)="addDont()">
@@ -138,8 +138,9 @@
   <button (click)="onDealFormEdit()" class="btn btn-primary">Edit</button>
 </form>
 
-<section id="console" *ngIf="this.item">
-  <button class="btn btn-primary" (click)="add()">Add</button>
+<section id="console" *ngIf="this.item && submited">
+  <br>
+  <button *ngIf="!addClick" class="btn btn-primary" (click)="add()">Add</button>
   <button class="btn btn-primary" (click)="del()">Del</button>
 </section>
 

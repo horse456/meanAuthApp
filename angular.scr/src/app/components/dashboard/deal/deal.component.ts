@@ -145,7 +145,7 @@ export class DealComponent implements OnInit {
       // show the add button
       this.addClick = false;
     }
-    console.log(this.dynamic);
+    console.log(this.item);
 
   }
 
@@ -160,7 +160,7 @@ export class DealComponent implements OnInit {
     };
     console.log('Deal value: ', this.Deal);
     this.dealMessage = [this.compass,
-       [this.importion01, this.importion02, this.importion03, this.importion04],
+      [this.importion01, this.importion02, this.importion03, this.importion04],
       [this.do, this.dont],
       this.dynamics,
       this.information,

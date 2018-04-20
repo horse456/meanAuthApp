@@ -1,58 +1,142 @@
-<p>Hp   </p><input type="range" value="50" [(ngModel)]="hp" ><p>Mp</p><br>
-<label>hp is {{hp}}; mp is {{100-hp}}</label>
-<section id="Hp">
+<!-- <div class="accordion" id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Select the ration of Hp 
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        Anim pariatur cliche reprehenderit
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" >Hp </span>
+            </div>
+            <input class="form-control" type="range" value="50" [(ngModel)]="hp" ><br>
+            <div class="input-group-append">
+                <span class="input-group-text" > Mp </span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
+<div class="row">
+  <div class="col">
+    <div class="collapse multi-collapse" id="multiCollapseExample2">
+      <div class="card card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" >Hp:  {{hp}}  </span>
+  </div>
+  <input class="form-control" type="range" value="50" [(ngModel)]="hp" ><br><br>
+  <div class="input-group-prepend">
+    <span class="input-group-text" >Mp:  {{mp}} </span>
+  </div>
+  <input class="form-control" type="range" value="50" [(ngModel)]="mp" ><br>
+</div>
+<p *ngIf="!HP">Now, we need to recove hp!  <button class="btn btn-primary" (click)="HP = true" >show</button> </p>
+
+<section id="Hp" *ngIf="HP && !Next && !Faild">
   <p>Recover Hp in order to coquer ourselves!</p>
-  <app-deal></app-deal>
-  <button class="btn btn-primary" (click)="next()" >Next</button>
-  <button class="btn btn-primary" (click)="faild()" >Faild</button>
+  <app-deal [item]="hpItem" (DealData)="hpDealData($event)" (DelDeal)="hpDelDeal($event)" ></app-deal>
+  <br>
+  <button *ngIf="hpDeal[0]" class="btn btn-primary" (click)="next()" >Next</button>
+  <button *ngIf="hpDeal[0]" class="btn btn-primary" (click)="faild()" >Faild</button>
 </section>
-<p *ngIf="Next">Now, we recover Hp!! </p><br>
-<section id="Mp" *ngIf="Next" >
+<div *ngIf="Next">
+  <p >Now, we recover Hp!! </p>
+  <ul *ngFor="let item of hpMessage; let i=index">
+    <li> {{name[i]}} : {{item}} </li>
+  </ul>
+  <p *ngIf="!MP">Now, we need to recove mp!  <button class="btn btn-primary" (click)="MP = true" >show</button> </p>
+  <br>
+</div>
+
+<div id="hpFaild " *ngIf="Faild && !Next">
+  <p >Now, we maybe faild!! </p>
+  <ul *ngFor="let item of hpMessage; let i=index">
+    <li> {{name[i]}} : {{item}} </li>
+  </ul><br>
+</div>
+
+<section id="Mp" *ngIf="MP && Next && !Successe" >
   <p>Recover Mp in order to coquer ourselves!</p>
-  <app-deal *ngIf="!Successe" ></app-deal>
-  <button class="btn btn-primary" (click)="successe()" >Next</button>
-  <button class="btn btn-primary" (click)="faild()" >Faild</button>
+  <app-deal *ngIf="!Successe" [item]="mpItem" (DealData)="mpDealData($event)" (DelDeal)="mpDelDeal($event)"></app-deal>
+  <br>
+  <button *ngIf="mpDeal[0]" class="btn btn-primary" (click)="successe()" >Success</button>
+  <button *ngIf="mpDeal[0]" class="btn btn-primary" (click)="faild()" >Faild</button>
 </section>
-<p *ngIf="Successe">Now, we recover Hp!! </p><br>
-<section id="faild" *ngIf="Faild" >
+<div *ngIf="Successe">
+  <p >Now, we recover Hp!! </p>
+  <ul *ngFor="let item of mpMessage; let i=index">
+    <li> {{name[i]}} : {{item}} </li>
+  </ul><br>
+</div>
+
+<div id="mpFaild " *ngIf="Faild && Next">
+  <p >Now, we maybe faild!! </p>
+  <ul *ngFor="let item of mpMessage; let i=index">
+    <li> {{name[i]}} : {{item}} </li>
+  </ul><br>
+</div>
+<section id="faild" *ngIf="Faild && !Done" >
   <p>We have to accept it, maybe we will get through 5 steps of grief</p>
   <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">angry:</span>
       </div>
       <textarea class="form-control" aria-label="With textarea"
-        placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea>
-  </div>
+        placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea><br>
+  </div><br>
   <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">deny:</span>
       </div>
       <textarea class="form-control" aria-label="With textarea"
         placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
-  </div>
+  </div><br>
   <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">bargain:</span>
       </div>
       <textarea class="form-control" aria-label="With textarea"
         placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
-  </div>
+  </div><br>
   <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">depress:</span>
       </div>
       <textarea class="form-control" aria-label="With textarea"
         placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
-  </div>
+  </div><br>
   <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">accept:</span>
       </div>
       <textarea class="form-control" aria-label="With textarea"
         placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
-  </div>
+  </div><br>
+</section>
+<section *ngIf="Done">
+    <p >Now, Breath Ryhthmic Evenly And Thrught the Heart for 3 minutes!! </p>
+    <ul *ngFor="let item of faildMessage; let i=index">
+      <li> {{faildName[i]}} : {{item}} </li>
+    </ul><br>
 </section>
 <div >
-  <button *ngIf="Successe" class="btn btn-primary" (click)="nextStep()" >Next Step</button>
-  <button *ngIf="Faild" class="btn btn-primary" (click)="done()" >Faild Done</button>
+  <br>
+  <button *ngIf="Successe" class="btn btn-primary" (click)="submit()" >Submit</button>
+  <button *ngIf="Faild && !Done" class="btn btn-primary" (click)="done()" >Faild Done</button>
 </div>
