@@ -55,7 +55,7 @@ export class EmotionComponent implements OnInit {
   hpDealData(data) {
     this.hpDeal.push(data._id);
     console.log('hpDeal id: ', data._id);
-    this.hpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.information, data.result];
+    this.hpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
     console.log('hp deal message: ', this.hpMessage);
   }
 
@@ -77,7 +77,7 @@ export class EmotionComponent implements OnInit {
   mpDealData(data) {
     this.mpDeal.push(data._id);
     console.log('mpDeal id: ', data._id);
-    this.mpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.information, data.result];
+    this.mpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
     console.log('mp deal message: ', this.mpMessage);
   }
 
