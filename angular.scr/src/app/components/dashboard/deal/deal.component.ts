@@ -20,7 +20,7 @@ export class DealComponent implements OnInit {
   desc02: string;
   dynamic: string[];
   dynamics: string[][];
-  information: string;
+  imformation: string;
   result: boolean;
 
   submited: boolean;
@@ -47,7 +47,7 @@ export class DealComponent implements OnInit {
     this.desc01 = '';
     this.desc02 = '';
     this.result = false;
-    this.name = ['Compass   ', 'Importion  ', 'Do & Don\'t  ', 'Dynamic   ', 'information ', 'Result   '];
+    this.name = ['Compass   ', 'Importion  ', 'Do & Don\'t  ', 'Dynamic   ', 'imformation ', 'Result   '];
   }
 
   // add and delete do&don't form
@@ -155,7 +155,7 @@ export class DealComponent implements OnInit {
       importion: [this.importion01, this.importion02, this.importion03, this.importion04],
       dodont: [this.do, this.dont],
       dynamic: this.dynamics,
-      information: this.information,
+      imformation: this.imformation,
       result: this.result
     };
     console.log('Deal value: ', this.Deal);
@@ -163,7 +163,7 @@ export class DealComponent implements OnInit {
       [this.importion01, this.importion02, this.importion03, this.importion04],
       [this.do, this.dont],
       this.dynamics,
-      this.information,
+      this.imformation,
       this.result];
 
 
@@ -201,14 +201,14 @@ export class DealComponent implements OnInit {
       importion: [this.importion01, this.importion02, this.importion03, this.importion04],
       dodont: [this.do, this.dont],
       dynamic: this.dynamics,
-      information: this.information,
+      imformation: this.imformation,
       result: this.result
     };
     this.dealMessage = [this.compass,
       [this.importion01, this.importion02, this.importion03, this.importion04],
      [this.do, this.dont],
      this.dynamics,
-     this.information,
+     this.imformation,
      this.result];
     const Id = this.dealId;
     console.log('update dealId: ', Id);
