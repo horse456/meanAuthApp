@@ -40,7 +40,7 @@
     </ul>
   </section>
   <section *ngIf="!finished">
-    <button *ngIf="!submited" class="btn btn-primary" (click)="push()">push</button><br>
+    <button *ngIf="!submited" class="btn btn-primary" (click)="push()">push</button>
     <button *ngIf="submited" class="btn btn-primary" (click)="push()">edit</button><span>   </span>
     <button *ngIf="submited" class="btn btn-primary" (click)="finish()">finish</button><br>
   </section>

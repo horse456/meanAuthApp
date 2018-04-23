@@ -1,6 +1,5 @@
-  <p>
-    <ng-content></ng-content>Logic processes!
-  </p>
+<br>
+<h3><ng-content></ng-content>Logic Process:</h3>
   
   <section id="button" *ngIf="!Clicked">
     <button class="btn btn-primary" (click)="exist()" >Explore Existed</button>
@@ -64,73 +63,79 @@
 
   <!-- after click next and show the list -->
   <section id="existList" *ngIf="(Clicked && !Exist && !Faild && state) || (programDeal[0] && state)">
-
-    <strong>Explore Existed</strong><br>
-    <li>state:  {{state}}</li>
-    <strong>Collection imformation</strong><br>
+    <br>
+    <h4 >Now, we explore something existed!! </h4><br>
+    <p>Explore Existed</p>
+    <li>state:  {{state}}</li><br>
+    <p>Collection imformation</p>
     <li>      webnet:  {{web}}</li>
     <li>      expert:  {{expert}}</li>
-    <li>      friend:  {{friend}}</li>
-    <strong>Policy:</strong><br>
+    <li>      friend:  {{friend}}</li><br>
+    <p>Policy:</p>
     <li>      imitate:  {{imitate}}</li>
     <li>      varnier:  {{varnier}}</li>
-
+    <hr>
   </section>
   <!-- after click faild and show the lists & faild form -->
   <div id="existFaild " *ngIf="Faild && !Exist && state && !programDeal[0] ">
-    <p >Now, we maybe faild!! </p>
-    <ul>
-      <li>Explore Existed:</li>
-      <li>State:  {{state}}</li>
-      <br>
-      <li>Collection imformation:</li>
-      <li>      webnet:  {{web}}</li>
-      <li>      expert:  {{expert}}</li>
-      <li>      friend:  {{friend}}</li>
-      <br>
-      <li>Policy:</li>
-      <li>      imitate:  {{imitate}}</li>
-      <li>      vernier:  {{vernier}}</li>
-    </ul><br>
+    <h4 >Now, we maybe faild!! </h4><br>
+    <p>Explore Existed</p>
+    <li>state:  {{state}}</li><br>
+    <p>Collection imformation</p>
+    <li>      webnet:  {{web}}</li>
+    <li>      expert:  {{expert}}</li>
+    <li>      friend:  {{friend}}</li><br>
+    <p>Policy:</p>
+    <li>      imitate:  {{imitate}}</li>
+    <li>      varnier:  {{varnier}}</li>
+    <hr><br>
   </div>
 
   <!-- unknow form and deal input & output -->
   <section id="unknow" *ngIf="Unknow">
     <br>
     <p>Get more imformatin:</p>
-    <app-deal [item]="unknowItem" (DealData)="unknowDealData($event)" (DelDeal)="unknowDelDeal($event)" ><div>Collect Imformation</div></app-deal>
+    <div *ngFor="let item of unknowItem" >
+      <app-deal [item]="unknowItem" (DealData)="unknowDealData($event)" (DelDeal)="unknowDelDeal($event)" ><div>Collect Imformation</div></app-deal>
+      <br>
+    </div>
     <br>
     <button *ngIf="unknowDeal[0]" class="btn btn-primary" (click)="unknowSuccess()" >Success</button>
     <button *ngIf="unknowDeal[0]" class="btn btn-primary" (click)="faild()" >Faild</button>
   </section>
 
   <div *ngIf="Success">
-    <p >Now, we get some imformation and move on!! </p>
-    <ul *ngFor="let item of unknowMessage; let i=index">
-      <li> {{name[i]}} : {{item}} </li>
-    </ul><br>
+    <h4 >Now, we get some imformations and move on!! </h4><br>
+    <div *ngFor="let item of unknowMessage">
+      <ul *ngFor="let str of item; let i=index" >
+          <li> {{name[i]}} : {{str}} </li>
+      </ul><hr><br>
+    </div>
+    
   </div>
 
   <div *ngIf="Faild && unknowDeal[0]">
-    <p >Now, we get some imformation and move on!! </p>
-    <ul *ngFor="let item of unknowMessage; let i=index">
-      <li> {{name[i]}} : {{item}} </li>
-    </ul><br>
+    <h4 >Now, we maybe faild!! </h4><br>
+    <div *ngFor="let item of unknowMessage">
+      <ul *ngFor="let str of item; let i=index" >
+          <li> {{name[i]}} : {{str}} </li>
+      </ul><hr><br>
+    </div>
   </div>
 
   <!-- program form and deal input & output -->
   <section id="program" *ngIf="Program">
     <br>
     <p>Make your picture clear:</p>
-    <section *ngIf="!rehearsalSubject">
-      <label>Subject:</label><input type="text" [(ngModel)]="subject">
-      <label>deadline:</label><input type="date" [(ngModel)]="deadline">
-      <button class="btn btn-primary" (click)="rehearsalSubject=true">Next</button>
-    </section>
 
-    <app-rehearsal *ngIf="rehearsalSubject" [subject]="subject" [deadline]="deadline" [getRehearsalId]="this.rehearsalId" (onRehearsalId)="onRehearsal($event)"></app-rehearsal>
+    <app-rehearsal  [getRehearsalId]="rehearsal" (RehearsalData)="onRehearsal($event)">Execute Program </app-rehearsal>
     <br>
-    <app-deal *ngIf="rehearsal"  [item]="programItem" (DealData)="programDealData($event)" (DelDeal)="programDelDeal($event)"><div>Execute Program</div></app-deal>
+    <div *ngIf="rehearsal" >
+      <div *ngFor="let item of programItem" >
+        <app-deal  [item]="programItem" (DealData)="programDealData($event)" (DelDeal)="programDelDeal($event)"><div>Execute Program</div></app-deal>
+        <br>
+      </div>
+    </div>
     <div *ngIf="programDeal[0]">
       <br>
       <button class="btn btn-primary" (click)="programSuccess()" >Success</button>
@@ -140,65 +145,35 @@
 
   <div *ngIf="ProgramSuccess">
     <br>
-    <p >Now, we got the right way and let's move on!! </p>
-    <ul *ngFor="let item of programMessage; let i=index">
-      <li> {{name[i]}} : {{item}} </li>
-    </ul><br>
+    <h4 >Now, we got the right way and let's move on!! </h4><br>
+    <p>program execute rehearsal </p>
+    <ul *ngFor="let item of rehearsalMessage; let i=index">
+      <li >
+          {{rehearsalName[i]}} : {{item}}
+      </li>
+    </ul>
+    <hr><br>
+    <p>program execute deal </p>
+    <div *ngFor="let item of programMessage">
+      <ul *ngFor="let str of item; let i=index" >
+          <li> {{name[i]}} : {{str}} </li>
+      </ul><hr><br>
+    </div>
+    <hr><br>
   </div>
 
   <div *ngIf="Faild && !ProgramSuccess && programDeal[0]">
-    <p >Now, we may faild!! </p>
-    <ul *ngFor="let item of programMessage; let i=index">
-      <li> {{name[i]}} : {{item}} </li>
-    </ul><br>
+    <h4 >Now, we may faild!! </h4><br>
+    <div *ngFor="let item of programMessage">
+      <ul *ngFor="let str of item; let i=index" >
+          <li> {{name[i]}} : {{str}} </li>
+      </ul><hr><br>
+    </div>
+    <hr><br>
   </div>
 
   <!-- faild form  -->
-  <section id="faild" *ngIf="Faild && !Done" >
-    <p>We have to accept it, maybe we will get through 5 steps of grief</p>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">angry:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea><br>
-    </div><br>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">deny:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
-    </div><br>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">bargain:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
-    </div><br>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">depress:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
-    </div><br>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">accept:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
-    </div><br>
-  </section>
-
-  <section *ngIf="Done">
-      <p >Now, Breath Ryhthmic Evenly And Thrught the Heart for 3 minutes!! </p>
-      <ul *ngFor="let item of faildMessage; let i=index">
-        <li> {{faildName[i]}} : {{item}} </li>
-      </ul><br>
-  </section>
+  <app-faild *ngIf="Faild" ></app-faild>
 
   <div >
     <br>

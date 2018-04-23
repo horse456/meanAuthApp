@@ -17,8 +17,12 @@ export class LogicComponent implements OnInit {
   varnier: string;
   existResult: boolean;
   unknowDeal: string[];
+  unknowDealObject: any[];
   rehearsal: string;
+  rehearsalMessage: string[];
+  rehearsalObject: object;
   programDeal: string[];
+  programDealObject: any[];
 
   submited: boolean;
   Clicked: boolean;
@@ -32,17 +36,11 @@ export class LogicComponent implements OnInit {
 
   programItem: string[];
   unknowItem: string[];
-  programMessage: string[];
-  unknowMessage: string[];
+  programMessage: any[];
+  unknowMessage: any[];
 
   name: string[];
-  faildName: string[];
-  faildMessage: string[];
-  angry: string;
-  deny: string;
-  bargain: string;
-  depress: string;
-  accept: string;
+  rehearsalName: string[];
 
   logic: object;
   logicId: string;
@@ -61,7 +59,11 @@ export class LogicComponent implements OnInit {
     this.programItem = ['program'];
     this.unknowItem = ['unknow'];
     this.name = ['compass', 'importion', 'do & don\'t', 'dyanmic', 'imformation', 'result'];
-    this.faildName = ['angry', 'deny', 'bargian', 'depress', 'accept'];
+    this.rehearsalName = ['subject', 'deadline', 'money', 'hp', 'mp', 'policy', 'problem', 'ratio'];
+    this.unknowDealObject = [];
+    this.programDealObject = [];
+    this.unknowMessage = [];
+    this.programMessage = [];
   }
 
   exist() {
@@ -82,13 +84,17 @@ export class LogicComponent implements OnInit {
 
   unknowDealData(data) {
     this.unknowDeal.push(data._id);
-    this.unknowMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
+    const Message = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
+    this.unknowMessage.push(Message);
     console.log('unknow deal message: ', this.unknowMessage);
+    this.unknowDealObject.push(data);
   }
 
   unknowDelDeal(data) {
     const i = this.unknowDeal.indexOf(data);
     this.unknowDeal.splice(i, 1);
+    this.unknowMessage.splice(i, 1);
+    this.unknowDealObject.splice(i, 1);
     // deal deal form by id
     this.dashboardService.delDeal(data).subscribe(datas => {
       if (datas.success) {
@@ -111,18 +117,24 @@ export class LogicComponent implements OnInit {
   }
 
   onRehearsal(data) {
-    this.rehearsal = data;
+    this.rehearsal = data._id;
+    this.rehearsalObject = data;
+    this.rehearsalMessage = [data.subject, data.deadline, data.money, data.hp, data.mp, data.policy, data.problem, data.ratio];
   }
 
   programDealData(data) {
     this.programDeal.push(data._id);
-    this.programMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
+    const Message = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
+    this.programMessage.push(Message);
     console.log('program deal message: ', this.programMessage);
+    this.programDealObject.push(data);
   }
 
   programDelDeal(data) {
     const i = this.programDeal.indexOf(data);
     this.programDeal.splice(i, 1);
+    this.programMessage.splice(i, 1);
+    this.programDealObject.splice(i, 1);
     // deal deal form by id
     this.dashboardService.delDeal(data).subscribe(datas => {
       if (datas.success) {
@@ -176,14 +188,24 @@ export class LogicComponent implements OnInit {
         console.log('logicId: ' + this.logicId);
 
         // pass the logic object to ask form
-        this.LogicData.emit(data.Logic);
-
+        const Datas = {
+          _id: data.Logic._id,
+          state: this.state,
+          collect: [this.web, this.expert, this.friend],
+          policy: [this.imitate, this.varnier],
+          existResult: this.existResult,
+          rehearsal: this.rehearsalObject,
+          unknowDeal: this.unknowDealObject,
+          programDeal: this.programDealObject
+          };
+        this.LogicData.emit(Datas);
+        console.log('Logic Datas:', Datas);
         // this.router.navigate(['/dashboard']);
       } else {
         this.flashMessage.show('add logic form, Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
       }
     });
-    console.log('submit logic: ', doc);
+
   }
 
   done() {
@@ -217,17 +239,25 @@ export class LogicComponent implements OnInit {
         console.log('logicId: ' + this.logicId);
 
         // pass the logic object to ask form
-        this.LogicData.emit(data.Logic);
+        const Datas = {_id: data.Logic._id,
+          state: this.state,
+          collect: [this.web, this.expert, this.friend],
+          policy: [this.imitate, this.varnier],
+          existResult: this.existResult,
+          rehearsal: this.rehearsalObject,
+          unknowDeal: this.unknowDealObject,
+          programDeal: this.programDealObject
+          };
+        this.LogicData.emit(Datas);
+        console.log('Logic Datas:', Datas);
 
         // this.router.navigate(['/dashboard']);
       } else {
         this.flashMessage.show('add logic form, Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
       }
     });
-    console.log('submit logic: ', doc);
     // hidden the faild form, and show ul
     this.Done = true;
-    this.faildMessage = [this.angry, this.deny, this.bargain, this.depress, this.accept];
   }
 
 }

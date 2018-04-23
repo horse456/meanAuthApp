@@ -1,6 +1,6 @@
 
 <div *ngIf="!submited">
-  <h3><ng-content></ng-content>Deal Process:</h3>
+  <h3><ng-content></ng-content>Deal Process:</h3><br>
   <section id="compass">
     <label>Compass:</label>
     <div class="input-group mb-3">
@@ -111,7 +111,7 @@
   <section id="result">
     <div class="custom-control custom-radio custom-control-inline">
       <input type="radio" id="success" name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="true" >
-      <label class="custom-control-label" for="success" >Sucesse</label>
+      <label class="custom-control-label" for="success" >Success</label>
     </div>
     <div class="custom-control custom-radio custom-control-inline">
       <input type="radio" id="faild"  name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="false" checked>
@@ -127,7 +127,8 @@
 </div>
 
 <form *ngIf="submited" [routerLinkActive]="['active']" >
-  <ul *ngIf="submited">
+  <br>
+  <ul>
       <h5>---Deal Form---</h5>
       <li *ngFor="let item of dealMessage; let i=index" >
           {{name[i]}}  :  {{item}}
