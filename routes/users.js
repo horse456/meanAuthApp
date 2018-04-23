@@ -185,11 +185,11 @@ router.post('/dashboard/rehearsal/update', (req, res, next) => {
     let newDoc = req.body
     console.log('update rehearsal: ',Id, newDoc);
 
-    Rehearsal.updateRehearsal(Id, newDoc, (err, doc) => {
+    Rehearsal.updateRehearsal(Id, newDoc, (err, rehearsal) => {
         if (err){
             res.json({success: false, msg: 'Failed to update Rehearsal form'});
         } else {
-            res.json({success: true, msg: 'Rehearsal Form Updated'})
+            res.json({rehearsal, success: true, msg: 'Rehearsal Form Updated'})
         }
     })
 });
@@ -464,11 +464,11 @@ router.post('/dashboard/deal/update', (req, res, next) => {
     let newDoc = req.body
     console.log('update Deal: ',Id, newDoc);
 
-    Deal.updateDeal(Id, newDoc, (err, doc) => {
+    Deal.updateDeal(Id, newDoc, (err, Deal) => {
         if (err){
             res.json({success: false, msg: 'Failed to update Deal form'});
         } else {
-            res.json({success: true, msg: 'Deal Form Updated'})
+            res.json({Deal, success: true, msg: 'Deal Form Updated'})
         }
     })
 });
