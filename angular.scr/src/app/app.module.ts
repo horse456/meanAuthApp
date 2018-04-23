@@ -29,6 +29,7 @@ import { TodoComponent } from './components/dashboard/todo/todo.component';
 import { DynamicComponent } from './components/dashboard/dynamic/dynamic.component';
 import { EmotionComponent } from './components/dashboard/emotion/emotion.component';
 import { LogicComponent } from './components/dashboard/logic/logic.component';
+import { FaildComponent } from './components/dashboard/faild/faild.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -56,7 +57,8 @@ const appRoutes: Routes = [
     TodoComponent,
     DynamicComponent,
     EmotionComponent,
-    LogicComponent
+    LogicComponent,
+    FaildComponent
   ],
   imports: [
     BrowserModule,

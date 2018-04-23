@@ -1,0 +1,49 @@
+<!-- faild form  -->
+<section id="faild" *ngIf="!Done" >
+  <p>We have to accept it, maybe we will get through 5 steps of grief</p>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">angry:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea><br>
+  </div><br>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">deny:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
+  </div><br>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">bargain:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
+  </div><br>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">depress:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
+  </div><br>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">accept:</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+        placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
+  </div><br>
+  <button class="btn btn-primary" (click)="done()">Done</button>
+</section>
+
+<section *ngIf="Done">
+  <h4 >Now, Breath Ryhthmic Evenly And Thrught the Heart for 3 minutes!! </h4>
+  <br>
+  <ul *ngFor="let item of faildMessage; let i=index">
+    <li> {{faildName[i]}} : {{item}} </li>
+  </ul>
+  <hr><br>
+</section>
