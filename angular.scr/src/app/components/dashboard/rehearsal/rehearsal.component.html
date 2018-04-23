@@ -1,50 +1,76 @@
-<br><br>
+<br>
 <form *ngIf="!submited" [routerLinkActive]="['active']"  [formGroup]="rehearsal">
-    <h5>---Rehearsal Form---</h5>
+    <h5>---<ng-content></ng-content>Rehearsal Form---</h5>
     <br>
     <div class="form-group">
-        <label  class="form-group">
+        <div class="input-group" *ngIf="!subject">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Subject:</span>
+                </div> 
+                <input class="form-control" type="text" placeholder="input your subject" formControlName="subject">
+        </div>
+        <div class="input-group" *ngIf="subject">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Subject:</span>
+                </div> 
                 <span>Subject:  {{subject}} </span>
-        </label><br>
-        <label>
-            <span>Deadline: {{deadline}}</span>
-           
-        </label>
+        </div>
         <br>
-        <label>
-                <span>Money: </span>
-                <input type="number" 
-                        placeholder="700"
-                        formControlName="money">
-        </label><br>
-        <label>
-                <span>HP(Hit point 0~100): </span>
-                <input type="range" value="60" min="0" max="100"
-                        formControlName="hp">
-        </label><br>
-        <label>
-                <span>MP(Mana Point 0~100): </span>
-                <input type="range" value="60" min="0" max="100"
-                        formControlName="mp">
-        </label><br>
-        <label>
-                <span>Policy: </span>
-                <input type="textarea" 
-                        placeholder="enumber your actions"
-                        formControlName="policy">
-        </label><br>
-        <label>
-                <span>Problem: </span>
-                <input type="textarea" 
-                        placeholder="take care "
-                        formControlName="problem">
-        </label>
+        <div class="input-group" *ngIf="!deadline">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Deadline: </span>
+                </div> 
+                <input type="date" class="form-control" aria-label="With input"
+                       name="deadline" formControlName="deadline">
+        </div>
+        <div class="input-group" *ngIf="deadline">
+                <div class="input-group-prepend">
+                <span class="input-group-text">deadline:</span>
+                </div> 
+                <span>Deadline:  {{deadline}} </span>
+        </div>
         <br>
-        <label>
-            <span>Ratio(0~100): </span>
-            <input type="range" value="60" min="0" max="100"
-                    formControlName="ratio">
-        </label>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">Money: </span>
+                </div> 
+                <input type="number" class="form-control"  placeholder="700" formControlName="money">
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">HP(Hit point 0~100): {{hp}} </span>
+                </div> 
+                <input class="form-control" type="range" value="60" min="0" max="100" formControlName="hp">
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">MP(Mana Point 0~100): {{mp}} </span>
+                </div> 
+                <input class="form-control" type="range" value="60" min="0" max="100" formControlName="mp">
+        </div>
+        <br>
+        <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Policy: </span>
+                </div> 
+                <input class="form-control" type="text" placeholder="enumber your actions" formControlName="policy">
+        </div>
+        <br>
+        <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Problem: </span>
+                </div> 
+                <input class="form-control" type="text" placeholder="take care " formControlName="problem">
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">Ratio(0~100): {{ratio}} </span>
+                </div> 
+                <input class="form-control" aria-label="With input" type="range" value="60" min="0" max="100" formControlName="ratio">
+        </div>
         <br><br>
         <button *ngIf="!edit && !getRehearsalId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormSubmit()">Submit</button>
         <button *ngIf="edit || getRehearsalId" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onRehearsalFormUpdate()">Update</button>
@@ -58,9 +84,7 @@
             {{item}}
         </li>
     </ul>
-    <br>
-    <button (click)="onRehearsalFormEdit()" class="btn btn-primary">Edit</button>
-    <!-- <span></span>
-    <button (click)="onRehearsalFormNext()" class="btn btn-primary">Next</button> -->
+    <button  (click)="onRehearsalFormEdit()" class="btn btn-primary">Edit</button>
+    <hr>
   </form>
   
