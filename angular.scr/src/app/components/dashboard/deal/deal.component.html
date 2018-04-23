@@ -94,7 +94,6 @@
   <div id="dynamic" *ngFor="let item of dynamic" > 
     <app-dynamic [dynamic]="dynamic" (Dynamics)="getDynamic($event)" (delDynamics)="delDynamic($event)" ></app-dynamic>
     <hr>
-    <br>
   </div>
 
   <section id="imformation">
@@ -105,8 +104,9 @@
     </div>
     <textarea class="form-control" aria-label="With textarea"
       placeholder="Get all imformations" name="imformation" [(ngModel)]="imformation" required></textarea>
-    </div><br>
+    </div>
   </section>
+  <br>
 
   <section id="result">
     <div class="custom-control custom-radio custom-control-inline">
@@ -117,9 +117,8 @@
       <input type="radio" id="faild"  name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="false" checked>
       <label class="custom-control-label" for="faild">Failed</label>
     </div>
-    <br>
-    <br>
   </section>
+  <br>
 
   <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormSubmit()">Submit</button>
   <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormUpdate()">Update</button>
@@ -140,8 +139,8 @@
 
 <section id="console" *ngIf="this.item && submited">
   <br>
-  <button *ngIf="!addClick" class="btn btn-primary" (click)="add()">Add</button>
-  <button class="btn btn-primary" (click)="del()">Del</button>
+  <button *ngIf="!addClick" class="btn btn-primary" (click)="add()">Add Deal</button>
+  <button class="btn btn-primary" (click)="del()">Del Deal</button>
 </section>
 
 

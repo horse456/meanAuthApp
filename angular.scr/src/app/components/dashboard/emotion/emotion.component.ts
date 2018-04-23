@@ -11,15 +11,16 @@ export class EmotionComponent implements OnInit {
   submited: boolean;
   Next: boolean;
   Faild: boolean;
-  Successe: boolean;
+  Success: boolean;
   hp: number;
   mp: number;
   hpDeal: string[];
+  hpDealObject: any[];
   mpDeal: string[];
+  mpDealObject: any[];
   result: boolean;
   emotion: object;
   emotionId: string;
-  emotionMessage: any[];
   name: string[];
 
   hpItem: string[];
@@ -27,13 +28,7 @@ export class EmotionComponent implements OnInit {
   hpMessage: string[];
   mpMessage: string[];
   Done: boolean;
-  faildMessage: string[];
-  faildName: string[];
-  angry: string;
-  deny: string;
-  bargain: string;
-  depress: string;
-  accept: string;
+
 
   @Input() emtionItems: string[];
   @Output() EmotionData = new EventEmitter<Object>();
@@ -46,9 +41,10 @@ export class EmotionComponent implements OnInit {
     this.hpItem = ['hp'];
     this.mpItem = ['mp'];
     this.name = ['compass', 'importion', 'do & don\'t', 'dyanmic', 'imformation', 'result'];
-    this.faildName = ['angry', 'deny', 'bargian', 'depress', 'accept'];
     this.hpDeal = [];
     this.mpDeal = [];
+    this.hpDealObject = [];
+    this.mpDealObject = [];
   }
 
 
@@ -57,12 +53,14 @@ export class EmotionComponent implements OnInit {
     console.log('hpDeal id: ', data._id);
     this.hpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
     console.log('hp deal message: ', this.hpMessage);
+    this.hpDealObject.push(data);
   }
 
   hpDelDeal(data: string) {
     console.log('del deal: ', data);
     const i = this.hpDeal.indexOf(data);
     this.hpDeal.splice(i, 1);
+    this.hpDealObject.splice(i, 1);
     // deal deal form by id
     this.dashboardService.delDeal(data).subscribe(datas => {
       if (datas.success) {
@@ -79,12 +77,14 @@ export class EmotionComponent implements OnInit {
     console.log('mpDeal id: ', data._id);
     this.mpMessage = [data.compass, data.importion, data.dodont, data.dynamic, data.imformation, data.result];
     console.log('mp deal message: ', this.mpMessage);
+    this.mpDealObject.push(data);
   }
 
   mpDelDeal(data: string) {
     console.log('del deal: ', data);
     const i = this.mpDeal.indexOf(data);
     this.mpDeal.splice(i, 1);
+    this.mpDealObject.splice(i, 1);
     // deal deal form by id
     this.dashboardService.delDeal(data).subscribe(datas => {
       if (datas.success) {
@@ -103,11 +103,14 @@ export class EmotionComponent implements OnInit {
   faild() {
     // show the faild form
     this.Faild = true;
+    if (this.Next) {
+      this.Success = false;
+    }
   }
 
-  successe() {
+  success() {
     // show data by ul, and make result true
-    this.Successe = true;
+    this.Success = true;
     this.result = true;
   }
 
@@ -128,22 +131,29 @@ export class EmotionComponent implements OnInit {
         this.submited = true;
 
         // output the emotionMessage
-        this.emotionMessage = [this.hp, this.mp, this.hpDeal, this.mpDeal, this.result];
-        console.log('submit EmotionMessage: ', this.emotionMessage);
+        console.log('submit Emotion: ', data.Emotion);
 
         // get the emotionId to edit
         this.emotionId = data.Emotion._id;
         console.log('EmotionId: ' + this.emotionId);
 
         // pass the emotion object to ask form
-        this.EmotionData.emit(data.Emotion);
+        const Datas = {_id: data.Emotion._id,
+                      hp: this.hp,
+                      mp: this.mp,
+                      hpDeal: this.hpDealObject,
+                      mpDeal: this.mpDealObject,
+                      result: this.result
+        };
+        this.EmotionData.emit(Datas);
+        console.log('Emotion Datas:', Datas);
 
         // this.router.navigate(['/dashboard']);
       } else {
         this.flashMessage.show('add Emotion form, Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
       }
     });
-    console.log('submit emotion: ', doc);
+
   }
 
   done() {
@@ -164,15 +174,22 @@ export class EmotionComponent implements OnInit {
         // this.submited = true;
 
         // output the emotionMessage
-        this.emotionMessage = [this.hp, this.mp, this.hpDeal, this.mpDeal, this.result];
-        console.log('submit EmotionMessage: ', this.emotionMessage);
+        console.log('submit Emotion: ', data.Emotion);
 
         // get the emotionId to edit
         this.emotionId = data.Emotion._id;
         console.log('EmotionId: ' + this.emotionId);
 
         // pass the emotion object to ask form
-        this.EmotionData.emit(data.Emotion);
+        const Datas = {_id: data.Emotion._id,
+                  hp: this.hp,
+                  mp: this.mp,
+                  hpDeal: this.hpDealObject,
+                  mpDeal: this.mpDealObject,
+                  result: this.result
+        };
+        this.EmotionData.emit(Datas);
+        console.log('Emotion Datas:', Datas);
 
         // this.router.navigate(['/dashboard']);
       } else {
@@ -182,7 +199,6 @@ export class EmotionComponent implements OnInit {
     console.log('submit emotion: ', doc);
     // hidden the faild form, and show ul
     this.Done = true;
-    this.faildMessage = [this.angry, this.deny, this.bargain, this.depress, this.accept];
   }
 
 }
