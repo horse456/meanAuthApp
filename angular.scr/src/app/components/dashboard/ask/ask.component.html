@@ -1,51 +1,35 @@
-<p>
-  Find out the way to successe!
-</p>
-<p>emotion   </p><input type="range" value="50" [(ngModel)]="ration" ><p>   logic</p><br>
-<label>emotion is {{ration}}%; logic is {{100-ration}}%</label>
+<br>
+<div *ngIf="!Ration">
+  <p>Find out the ration of our problem!</p>
+  <p>emotion:  {{ration}}% </p>
+  <input type="range" value="50" [(ngModel)]="ration" >
+  <p>logic:   {{100-ration}}% </p>
+</div>
+<div *ngIf="Ration">
+  <p>Our problem is made of {{ration}}% emotion and {{100-ration}}% logic.</p>
+  <p>Let's fix it!</p>
+</div>
+<hr>
+<p *ngIf="!show">let's start our journey!! <button class="btn btn-primary" (click)="Ration=true; show=true; ration>= 50 ? items.push(true) : items.push(false)">Start</button></p>
+
 <section id="process" *ngFor="let item of items">
-  <app-emotion *ngIf="item === true"></app-emotion>
-  <app-logic *ngIf="item === false"></app-logic>
-  <button class="btn btn-primary">Emotion</button>
-  <button class="btn btn-primary">Logic</button>
-  <button class="btn btn-primary">Done</button>  
+  <app-emotion *ngIf="item === true" [emotionItems]="" (EmotionData)="onEmotion($event)"  ></app-emotion>
+  <app-logic *ngIf="item === false" [logicItems]="" (LogicData)="onLogic($event)"></app-logic>
 </section>
 
-<section id="faild" *ngIf="Faild" >
-    <p>We have to accept it, maybe we will get through 5 steps of grief</p>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">angry:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel angry" name="angry" [(ngModel)]="angry" required></textarea>
-    </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">deny:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel deny" name="deny" [(ngModel)]="deny" required></textarea>
-    </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">bargain:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel bargain" name="bargain" [(ngModel)]="bargain" required></textarea>
-    </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">depress:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel depress" name="depress" [(ngModel)]="depress" required></textarea>
-    </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">accept:</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"
-          placeholder="we may feel accept" name="accept" [(ngModel)]="accept" required></textarea>
-    </div>
-  </section>
+<div *ngIf="Success">
+  <br>
+  <h4>Congratulation! we got it! good job!!</h4>
+</div>
+
+<app-faild *ngIf="Fail"></app-faild>
+
+<br>
+<div *ngIf="Button" >
+  <button class="btn btn-primary" *ngIf="Emotion" (click)="addEmotion()" >Emotion</button>
+  <button class="btn btn-primary" *ngIf="Logic" (click)="addLogic()" >Logic</button>
+  <button class="btn btn-primary" (click)="success()" >Success</button>  
+  <button class="btn btn-primary" (click)="fail()" >Fail</button> 
+</div>
+
+<button class="btn btn-primary" *ngIf="Done" (click)="done()" >Fail Done</button>  

@@ -23,6 +23,7 @@ export class LogicComponent implements OnInit {
   rehearsalObject: object;
   programDeal: string[];
   programDealObject: any[];
+  result: boolean;
 
   submited: boolean;
   Clicked: boolean;
@@ -64,6 +65,7 @@ export class LogicComponent implements OnInit {
     this.programDealObject = [];
     this.unknowMessage = [];
     this.programMessage = [];
+    this.result = false;
   }
 
   exist() {
@@ -109,6 +111,7 @@ export class LogicComponent implements OnInit {
   unknowSuccess() {
     this.Success = true;
     this.Unknow = false;
+    this.result = true;
   }
 
   program() {
@@ -149,6 +152,7 @@ export class LogicComponent implements OnInit {
     // show data by ul, and hidden program form
     this.Program = false;
     this.ProgramSuccess = true;
+    this.result = true;
   }
 
   faild() {
@@ -196,7 +200,8 @@ export class LogicComponent implements OnInit {
           existResult: this.existResult,
           rehearsal: this.rehearsalObject,
           unknowDeal: this.unknowDealObject,
-          programDeal: this.programDealObject
+          programDeal: this.programDealObject,
+          result: this.result
           };
         this.LogicData.emit(Datas);
         console.log('Logic Datas:', Datas);
@@ -246,7 +251,8 @@ export class LogicComponent implements OnInit {
           existResult: this.existResult,
           rehearsal: this.rehearsalObject,
           unknowDeal: this.unknowDealObject,
-          programDeal: this.programDealObject
+          programDeal: this.programDealObject,
+          result: this.result
           };
         this.LogicData.emit(Datas);
         console.log('Logic Datas:', Datas);

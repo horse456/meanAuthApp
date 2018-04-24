@@ -1,65 +1,38 @@
-<!-- <div class="accordion" id="accordion">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          Select the ration of Hp 
-        </button>
-      </h5>
-    </div>
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" >Hp </span>
-            </div>
-            <input class="form-control" type="range" value="50" [(ngModel)]="hp" ><br>
-            <div class="input-group-append">
-                <span class="input-group-text" > Mp </span>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
-<div class="row">
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-      </div>
-    </div>
-  </div>
-</div> -->
 <br>
-<p>In order to finish our tasks, we must keep our hp over this value, adjust numbers!</p>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" >Hp:  {{hp}}  </span>
-  </div>
-  <input class="form-control" type="range" value="50" [(ngModel)]="hp" >
-  <br>
-  </div>
-  <p>In order to finish our tasks, we must keep our mp over this value, adjust numbers!</p>
+<h3><ng-content></ng-content>Emotion Process:</h3>
+<br>
+<div *ngIf="!Select">
+  <p>In order to finish our tasks, we must keep our hp over this value, adjust numbers!</p>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text" >Mp:  {{mp}} </span>
+      <span class="input-group-text" >Hp:  {{hp}}  </span>
     </div>
-    <input class="form-control" type="range" value="50" [(ngModel)]="mp" >
-  </div>
-  <hr>
-<p *ngIf="!HP">Now, we need to recove hp!  <button class="btn btn-primary" (click)="HP = true" >show</button> </p>
+    <input class="form-control" type="range" value="50" [(ngModel)]="hp" >
+    <br>
+    </div>
+    <p>In order to finish our tasks, we must keep our mp over this value, adjust numbers!</p>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" >Mp:  {{mp}} </span>
+      </div>
+      <input class="form-control" type="range" value="50" [(ngModel)]="mp" >
+    </div>
+</div>
+<div *ngIf="Select">
+  <p>Our aims are make hp over {{hp}}, and mp over {{mp}}.</p>
+  <p>Let's fix it!</p>
+</div>
 
-<section id="Hp" *ngIf="HP && !Next && !Faild">
+  <hr>
+<p *ngIf="!HP">Now, we need to recove hp!  <button class="btn btn-primary" (click)="HP = true; Select=true;" >show</button> </p>
+
+<section id="Hp" *ngIf="HP && !Next && !Fail">
   <p>Recover Hp in order to coquer ourselves!</p>
   <app-deal [item]="hpItem" (DealData)="hpDealData($event)" (DelDeal)="hpDelDeal($event)" ><div>Recover Hp</div></app-deal>
   <hr><br>
   <button *ngIf="hpDeal[0]" class="btn btn-primary" (click)="next()" >Next</button>
-  <button *ngIf="hpDeal[0]" class="btn btn-primary" (click)="faild()" >Faild</button>
+  <button *ngIf="hpDeal[0]" class="btn btn-primary" (click)="fail()" >Fail</button>
 </section>
 
 <div *ngIf="Next">
@@ -73,8 +46,8 @@
   <br>
 </div>
 
-<div id="hpFaild " *ngIf="Faild && !Next">
-  <h4 >Now, we maybe faild!! </h4>
+<div id="hpFail " *ngIf="Fail && !Next">
+  <h4 >Now, we maybe fail!! </h4>
   <br>
   <ul *ngFor="let item of hpMessage; let i=index">
     <li> {{name[i]}} : {{item}} </li>
@@ -82,12 +55,12 @@
   <hr><br>
 </div>
 
-<section id="Mp" *ngIf="MP && Next && !Success" >
+<section id="Mp" *ngIf="MP && Next && !Success && !Fail" >
   <p>Recover Mp in order to coquer ourselves!</p>
   <app-deal *ngIf="!Success" [item]="mpItem" (DealData)="mpDealData($event)" (DelDeal)="mpDelDeal($event)"><div>Recover Mp</div></app-deal>
   <br><hr><br>
   <button *ngIf="mpDeal[0]" class="btn btn-primary" (click)="success()" >Success</button>
-  <button *ngIf="mpDeal[0]" class="btn btn-primary" (click)="faild()" >Faild</button>
+  <button *ngIf="mpDeal[0]" class="btn btn-primary" (click)="fail()" >Fail</button>
 </section>
 <div *ngIf="Success">
   <h4 >Now, we recover Mp!! </h4>
@@ -97,8 +70,8 @@
   </ul><br>
 </div>
 
-<div id="mpFaild " *ngIf="Faild && Next">
-  <h4 >Now, we maybe faild!! </h4>
+<div id="mpFail " *ngIf="Fail && Next">
+  <h4 >Now, we maybe fail!! </h4>
   <br>
   <ul *ngFor="let item of mpMessage; let i=index">
     <li> {{name[i]}} : {{item}} </li>
@@ -106,10 +79,10 @@
   <hr>
 </div>
 
-<app-faild *ngIf="Faild"></app-faild>
+<app-faild *ngIf="Fail"></app-faild>
 
 <div >
   <br>
   <button *ngIf="Success && !submited" class="btn btn-primary" (click)="submit()" >Submit Emotion</button>
-  <button *ngIf="Faild && !Done" class="btn btn-primary" (click)="done()" >Faild Done</button>
+  <button *ngIf="Fail && !Done" class="btn btn-primary" (click)="done()" >Fail Done</button>
 </div>

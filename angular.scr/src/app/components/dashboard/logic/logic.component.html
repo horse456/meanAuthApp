@@ -109,7 +109,7 @@
     <div *ngFor="let item of unknowMessage">
       <ul *ngFor="let str of item; let i=index" >
           <li> {{name[i]}} : {{str}} </li>
-      </ul><hr><br>
+      </ul><hr>
     </div>
     
   </div>
@@ -119,7 +119,7 @@
     <div *ngFor="let item of unknowMessage">
       <ul *ngFor="let str of item; let i=index" >
           <li> {{name[i]}} : {{str}} </li>
-      </ul><hr><br>
+      </ul><hr>
     </div>
   </div>
 
@@ -179,5 +179,6 @@
     <br>
     <button *ngIf="(Success || ProgramSuccess) && !submited" class="btn btn-primary" (click)="submit()" >Submit</button>
     <button *ngIf="Faild && !Done" class="btn btn-primary" (click)="done()" >Faild Done</button>
+    <br>
   </div>
 

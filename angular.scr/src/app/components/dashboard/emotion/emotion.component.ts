@@ -10,7 +10,7 @@ import { DashboardService } from '../../../services/dashboard.service';
 export class EmotionComponent implements OnInit {
   submited: boolean;
   Next: boolean;
-  Faild: boolean;
+  Fail: boolean;
   Success: boolean;
   hp: number;
   mp: number;
@@ -30,7 +30,7 @@ export class EmotionComponent implements OnInit {
   Done: boolean;
 
 
-  @Input() emtionItems: string[];
+  @Input() emotionItems: string[];
   @Output() EmotionData = new EventEmitter<Object>();
   @Output() DelEmotion = new EventEmitter<string>();
 
@@ -45,6 +45,7 @@ export class EmotionComponent implements OnInit {
     this.mpDeal = [];
     this.hpDealObject = [];
     this.mpDealObject = [];
+    this.result = false;
   }
 
 
@@ -100,9 +101,9 @@ export class EmotionComponent implements OnInit {
     this.Next = true;
   }
 
-  faild() {
+  fail() {
     // show the faild form
-    this.Faild = true;
+    this.Fail = true;
     if (this.Next) {
       this.Success = false;
     }
@@ -171,7 +172,7 @@ export class EmotionComponent implements OnInit {
         this.flashMessage.show('Emotion was now submited  ', {cssClass: 'alert-success', timeout: 3000});
 
         // make flagged to hidden/show Form
-        // this.submited = true;
+        this.submited = true;
 
         // output the emotionMessage
         console.log('submit Emotion: ', data.Emotion);
