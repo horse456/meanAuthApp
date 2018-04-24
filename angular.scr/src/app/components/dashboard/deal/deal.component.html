@@ -1,125 +1,198 @@
 
 <div *ngIf="!submited">
   <h3><ng-content></ng-content>Deal Process:</h3><br>
-  <section id="compass">
-    <label>Compass:</label>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" >Compass:  </span>
+
+  <div class="accordion" id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Compass:
+          </button>
+        </h5>
       </div>
-      <input class="form-control" type="text" [(ngModel)]="compass" name="compass" placeholder="write down your compass" required><br>
-  </div>
-  <hr>
-  <br>
-  </section>
-
-  <section id="importion">
-    <label>Importion:</label>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Level 1:  </span>
+  
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" >Compass:  </span>
+                </div>
+                <input class="form-control" type="text" [(ngModel)]="compass" name="compass" placeholder="write down your compass" required><br>
+            </div>
+            <hr>
         </div>
-        <input class="form-control" type="text" [(ngModel)]="importion01" name="importion01" placeholder="importion & urgent" required><br>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Level 2:  </span>
-        </div>
-        <input class="form-control" type="text" [(ngModel)]="importion02" name="importion02" placeholder="not importion but urgent" ><br>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Level 3:  </span>
-        </div>
-        <input class="form-control" type="text" [(ngModel)]="importion03" name="importion03" placeholder="importion but not urgent" ><br>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Level 4:  </span>
-        </div>
-        <input class="form-control" type="text" [(ngModel)]="importion04" name="importion04" placeholder="not importion & not urgent" ><br>
-    </div>
-    <hr>
-    <br>
-  </section>
-
-  <section id="dodont">
-    <label>Do & Don't:</label>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Do:  </span>
-        </div>
-        <input type="text" class="form-control" placeholder="Do the right things! Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
-            name= "Do"
-            [(ngModel)]="desc01"
-            (keyup.enter)="addDo()">
+      </div>
     </div>
 
-    <section class="main" *ngIf="do?.length > 0">
-      <ul class="todo-list">
-        <li *ngFor="let item of do" >
-          <div class="view">
-            <label>{{item}}</label>
-            <button class="destroy" (click)="removeDo(item)"></button>
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Importion:
+            </button>
+          </h5>
+        </div>
+    
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+              <section id="importion">
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Level 1:  </span>
+                      </div>
+                      <input class="form-control" type="text" [(ngModel)]="importion01" name="importion01" placeholder="importion & urgent" required><br>
+                  </div>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Level 2:  </span>
+                      </div>
+                      <input class="form-control" type="text" [(ngModel)]="importion02" name="importion02" placeholder="not importion but urgent" ><br>
+                  </div>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Level 3:  </span>
+                      </div>
+                      <input class="form-control" type="text" [(ngModel)]="importion03" name="importion03" placeholder="importion but not urgent" ><br>
+                  </div>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Level 4:  </span>
+                      </div>
+                      <input class="form-control" type="text" [(ngModel)]="importion04" name="importion04" placeholder="not importion & not urgent" ><br>
+                  </div>
+                  <hr>
+                  <br>
+              </section>
           </div>
-        </li>
-      </ul>
-    </section>
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" >Don't: </span>
         </div>
-        <input type="text" class="form-control" placeholder="leave it alone!  Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
-            name= "Dont"
-            [(ngModel)]="desc02"
-            (keyup.enter)="addDont()">
     </div>
 
-    <section class="main" *ngIf="dont?.length > 0">
-      <ul class="todo-list">
-        <li *ngFor="let item of dont">
-          <div class="view">
-            <label>{{item}}</label>
-            <button class="destroy" (click)="removeDont(item)"></button>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Do & Don't:
+            </button>
+          </h5>
+        </div>
+    
+        <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+              <section id="dodont">
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Do:  </span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Do the right things! Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
+                          name= "Do"
+                          [(ngModel)]="desc01"
+                          (keyup.enter)="addDo()">
+                  </div>
+              
+                  <section class="main" *ngIf="do?.length > 0">
+                    <ul class="todo-list">
+                      <li *ngFor="let item of do" >
+                        <div class="view">
+                          <label>{{item}}</label>
+                          <button class="destroy" (click)="removeDo(item)"></button>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+              
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >Don't: </span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="leave it alone!  Press enter to submit!" aria-label="Username" aria-describedby="basic-addon1"
+                          name= "Dont"
+                          [(ngModel)]="desc02"
+                          (keyup.enter)="addDont()">
+                  </div>
+              
+                  <section class="main" *ngIf="dont?.length > 0">
+                    <ul class="todo-list">
+                      <li *ngFor="let item of dont">
+                        <div class="view">
+                          <label>{{item}}</label>
+                          <button class="destroy" (click)="removeDont(item)"></button>
+                        </div>
+                      </li>
+                    </ul>
+                    <br>
+                  </section>
+                  <hr>
+                  <br>
+              </section>
           </div>
-        </li>
-      </ul>
-      <br>
-    </section>
-    <hr>
-    <br>
-  </section>
-
-  <div id="dynamic" *ngFor="let item of dynamic" > 
-    <app-dynamic [dynamic]="dynamic" (Dynamics)="getDynamic($event)" (delDynamics)="delDynamic($event)" ></app-dynamic>
-    <hr>
-  </div>
-
-  <section id="imformation">
-      <label>Conclusion:</label>
-    <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Imformation: </span>
+        </div>
     </div>
-    <textarea class="form-control" aria-label="With textarea"
-      placeholder="Get all imformations" name="imformation" [(ngModel)]="imformation" required></textarea>
+    
+    <div class="card">
+        <div class="card-header" id="headingFour">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Dynamics:
+            </button>
+          </h5>
+        </div>
+    
+        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+              <section id="dynamic">
+                  <div id="dynamic" *ngFor="let item of dynamic" > 
+                    <app-dynamic [dynamic]="dynamic" (Dynamics)="getDynamic($event)" (delDynamics)="delDynamic($event)" ></app-dynamic>
+                    <hr>
+                  </div>
+                  <hr>
+              </section>
+          </div>
+        </div>
     </div>
-  </section>
+
+    <div class="card">
+        <div class="card-header" id="headingFive">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Conclusion:
+            </button>
+          </h5>
+        </div>
+    
+        <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+              <section id="Imformation">
+                  <section id="imformation">
+                      <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Imformation: </span>
+                      </div>
+                      <textarea class="form-control" aria-label="With textarea"
+                        placeholder="Get all imformations" name="imformation" [(ngModel)]="imformation" required></textarea>
+                      </div>
+                    </section>
+                    <br>
+                  
+                    <section id="result">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="success" name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="true" >
+                        <label class="custom-control-label" for="success" >Success</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="faild"  name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="false" checked>
+                        <label class="custom-control-label" for="faild">Failed</label>
+                      </div>
+                    </section>
+                    <br>
+              </section>
+          </div>
+        </div>
+    </div>
+
+  </div> 
+  
   <br>
-
-  <section id="result">
-    <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" id="success" name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="true" >
-      <label class="custom-control-label" for="success" >Success</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" id="faild"  name="result" class="custom-control-input" [ngModel]="result" (ngModelChange)="result=$event" value="false" checked>
-      <label class="custom-control-label" for="faild">Failed</label>
-    </div>
-  </section>
-  <br>
-
   <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormSubmit()">Submit</button>
   <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onDealFormUpdate()">Update</button>
   <hr>
