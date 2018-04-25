@@ -112,7 +112,7 @@ router.post('/dashboard/smart/update', (req, res, next) => {
         if (err){
             res.json({success: false, msg: 'Failed to update SMART form'});
         } else {
-            res.json({success: true, msg: 'SMART Updated'})
+            res.json({smart, success: true, msg: 'SMART Updated'})
         }
     })
 });
@@ -329,11 +329,11 @@ router.post('/dashboard/operation/update', (req, res, next) => {
     let newDoc = req.body
     console.log('update operation: ',Id, newDoc);
 
-    Operation.updateOperation(Id, newDoc, (err, doc) => {
+    Operation.updateOperation(Id, newDoc, (err, operation) => {
         if (err){
             res.json({success: false, msg: 'Failed to update operation form'});
         } else {
-            res.json({success: true, msg: 'Operation Form Updated'})
+            res.json({operation, success: true, msg: 'Operation Form Updated'})
         }
     })
 });
