@@ -2,14 +2,38 @@
 <br>
 <button class="btn btn-primary" *ngIf="!created" [routerLinkActive]="['active']" (click)="onCreated()" >Create New Preject</button>
 <div *ngIf="created">
-        <app-smart (onSmartId)="onSmart($event)" (onEdit)="onSmartEdit()"></app-smart>
+    <app-smart (SmartData)="onSmart($event)" (Edit)="onSmartEdit()"></app-smart>
 </div>
-<div *ngIf="rehearsal" >
-        <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" [getRehearsalId]="this.rehearsalId" (onRehearsalId)="onRehearsal($event)"></app-rehearsal>
+    <div *ngIf="Rehearsal" >
+    <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" [getRehearsalId]="this.rehearsalId" (RehearsalData)="onRehearsal($event)"></app-rehearsal>
 </div>
 <div *ngIf="operation">
-        <app-operation [getOperationId]="operationId" (onOperationId)="onOperation($event)"></app-operation>
+    <app-operation [getOperationId]="operationId" (OperationData)="onOperation($event)"></app-operation>
 </div>
+<div *ngIf="ask">
+        <p *ngIf="!Ask"> if we got some trubles, we may get helps form ask form!  <button class="btn btn-primary" (click)="Ask=true;">Ask Form</button></p>
+        <div *ngIf="Ask">
+        <app-ask (AskData)="onAsk(); Button=true"></app-ask>
+        </div>
+        <p>if we don't need any helps, we just pass!!  <button class="btn btn-primary" (click)="ask=false; Button=true">Pass</button></p>
+        <br>
+       
+</div>
+<div *ngIf="Button">
+        <button class="btn btn-primary" (click)="result=true; resume=true" >Success</button>
+        <button class="btn btn-primary" (click)="Fail=true; Button=false; resume=true;" >Fail</button>
+</div>
+<app-faild *ngIf="Fail"></app-faild>
+<br>
+
 <div *ngIf="resume">
+        <p > Now we finished, we may make some resumes! </p>
         <app-resume [subject]="subject" [userId]="userId" [getResumeId]="resumeId" (onResumeId)="onResume($event)" ></app-resume>
 </div>
+
+        <!-- use ngfor to increase another app-deal -->
+        <!-- when app-deal's add button is clicked,
+        let dashboard items add one and creat another app-deal  -->
+        <!-- <div *ngFor="let item of items">
+        <app-deal [item]="items" (items)="addDeal($event)"></app-deal>
+        </div> -->

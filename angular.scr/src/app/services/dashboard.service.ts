@@ -56,7 +56,7 @@ export class DashboardService {
   }
 
   // operation form
-  submitOperation(doc){
+  submitOperation(doc) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/users/dashboard/operation/add', doc, {headers: headers})
@@ -103,6 +103,14 @@ export class DashboardService {
       .map( res => res.json());
   }
 
+  delDeal(Id) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log('http://localhost:3000/users/dashboard/Deal/remove?DealId=' + Id);
+    return this.http.post('http://localhost:3000/users/dashboard/Deal/remove?DealId=' + Id, {headers: headers})
+      .map( res => res.json());
+  }
+
   // Emotion form
   submitEmotion(doc) {
     let headers = new Headers();
@@ -118,6 +126,7 @@ export class DashboardService {
     return this.http.post('http://localhost:3000/users/dashboard/emotion/update?EmotionId=' + Id, doc, {headers: headers})
       .map( res => res.json());
   }
+
 
    // Logic form
   submitLogic(doc) {

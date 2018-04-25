@@ -9,12 +9,16 @@
 </section>
 
   <form *ngIf="submited"  >
-    <ul >
-        <h5>---Operation Form---</h5>
-        <li *ngFor="let item of todo">
-            {{item}} status: {{ done[this.todo.indexOf(item)] }}
-        </li>
+    <h5>---Operation Form---</h5>
+    <br>
+    <ul *ngFor="let item of todo">
+
+      <li >
+          {{item}} status:  {{ done[this.todo.indexOf(item)] }}
+      </li>
     </ul>
     <br>
     <button (click)="onOperationFormEdit()" class="btn btn-primary">Edit</button>
+    <hr>
+    <br>
   </form>

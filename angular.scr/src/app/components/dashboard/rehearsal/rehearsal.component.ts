@@ -13,8 +13,9 @@ export class RehearsalComponent implements OnInit {
   rehearsal: FormGroup;
   submited: boolean;
   edit: boolean;
-  rehearsalMessage: any;
+  rehearsalMessage: string[];
   rehearsalId: string;
+  name: string[];
 
 
   @Output() RehearsalData = new EventEmitter<object>();
@@ -38,7 +39,7 @@ export class RehearsalComponent implements OnInit {
       problem: ['', [Validators.required]],
       ratio: ['', [Validators.required]]
     });
-
+    this.name = ['subject', 'deadline', 'money', 'hp', 'mp', 'policy', 'problem', 'ratio'];
   }
 
   onRehearsalFormSubmit() {
@@ -53,8 +54,8 @@ export class RehearsalComponent implements OnInit {
         this.submited = true;
 
         // output the rehearsalMessage
-        const messages = JSON.stringify(rehearsal);
-        this.rehearsalMessage = messages.slice(2, messages.length - 1).split(',');
+        this.rehearsalMessage = [data.rehearsal.subject, rehearsal.deadline, data.rehearsal.money, data.rehearsal.hp,
+          data.rehearsal.mp, data.rehearsal.policy, data.rehearsal.problem, data.rehearsal.ratio];
         console.log('submit rehearsalMessage: ', this.rehearsalMessage);
 
         // get the smartId to edit
@@ -86,8 +87,8 @@ export class RehearsalComponent implements OnInit {
         this.edit = false;
 
         // output the smartMessage
-        const messages = JSON.stringify(rehearsal);
-        this.rehearsalMessage = messages.slice(2, messages.length - 1 ).split(',');
+        this.rehearsalMessage = [data.rehearsal.subject, rehearsal.deadline, data.rehearsal.money, data.rehearsal.hp,
+          data.rehearsal.mp, data.rehearsal.policy, data.rehearsal.problem, data.rehearsal.ratio];
         console.log('update rehearsalMessage: ' + this.rehearsalMessage);
 
         // pass the rehearsal Id to parent module

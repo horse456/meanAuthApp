@@ -3,62 +3,70 @@
   <h5>---SMART Form---</h5>
   <br>
   <div class="form-group">
-      <label  class="form-group">
-              <span>Subject: </span>
-              <input type="text" 
-                      placeholder="what's your subject?"
-                      formControlName="subject">
-      </label><br>
-      <label>
-          <span>speciafic: </span>
-          <input type="text" 
-                  placeholder="speciafic your subject"
-                  formControlName="speciafic">
-      </label>
-      <br>
-      <label>
-              <span>measurable: </span>
-              <input type="text" 
-                      placeholder="measure your subject?"
-                      formControlName="measurable">
-      </label><br>
-      <label>
-              <span>achievable: </span>
-              <input type="text" 
-                      placeholder="make sure your subject achievable?"
-                      formControlName="achievable">
-      </label><br>
-      <label>
-              <span>relevant: </span>
-              <input type="text" 
-                      placeholder="the relevant of your subject?"
-                      formControlName="relevant">
-      </label><br>
-      <label>
-              <span>deadline: </span>
-              <input type="date" 
-                      placeholder="20181230"
-                      formControlName="timeBased">
-      </label><br>
-      <label>
-              <span>ratio: </span>
-              <input type="range" value="50" min="0" max="100" 
-                      formControlName="ratio">
-      </label>
-      <br><br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">Subject:</span>
+                </div> 
+                <input class="form-control" type="text" placeholder="input your subject" formControlName="subject">
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">speciafic: </span>
+                </div> 
+                <textarea class="form-control"  placeholder="speciafic your subject" formControlName="speciafic"></textarea>
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">measurable: </span>
+                </div> 
+                <textarea class="form-control"  placeholder="measurable your subject" formControlName="measurable"></textarea>
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">achievable: </span>
+                </div> 
+                <textarea class="form-control"  placeholder="make sure your subject achievable" formControlName="achievable"></textarea>
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">relevant: </span>
+                </div> 
+                <textarea class="form-control"  placeholder="the relevant of your subject" formControlName="relevant"></textarea>
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">deadline:</span>
+                </div> 
+                <input class="form-control" type="date" placeholder="20181230" formControlName="timeBased">
+        </div>
+        <br>
+        <div class="input-group" >
+                <div class="input-group-prepend">
+                <span class="input-group-text">ratio:</span>
+                </div> 
+                <input class="form-control" type="range" value="50" min="0" max="100" formControlName="ratio">
+        </div>
+        <br><br>
       <button *ngIf="!edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormSubmit()">Submit</button>
       <button *ngIf="edit" [routerLinkActive]="['active']" class="btn btn-primary" (click)="onSmartFormUpdate()">Update</button>
   </div>
 </form>
 
-<form *ngIf="submited" [routerLinkActive]="['active']" >
-  <ul *ngIf="submited">
-      <h5>---SMART Form---</h5>
-      <li *ngFor="let item of smartMessage">
-          {{item}}
-      </li>
-  </ul>
-  <br>
-  <button (click)="onSmartFormEdit()" class="btn btn-primary">Edit</button>
-
+<form *ngIf="submited"  >
+        <h5>---SMART Form---</h5>
+        <br>
+        <ul *ngFor="let item of smartMessage; let i=index">
+                <li >
+                        {{name[i]}}   :   {{item}}
+                </li>
+        </ul>
+        <br>
+        <button (click)="onSmartFormEdit()" class="btn btn-primary">Edit</button>
+        <hr>
+        <br>
 </form>

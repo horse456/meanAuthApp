@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
   deadline: string;
   postId: string;
   post: object;
-  rehearsal: boolean;
-  rehearsalId:string;
+  Rehearsal: boolean;
+  rehearsalId: string;
   operation: boolean;
   operationId: string;
   result: string;
@@ -33,7 +33,9 @@ export class DashboardComponent implements OnInit {
   deal: boolean;
   dealId: string;
   other: object;
- 
+
+  items: string[];
+
   constructor (private authService: AuthService,
               private dashboardService: DashboardService,
               private flashMessage: FlashMessagesService) {
@@ -41,17 +43,17 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit () {
-    //get the user_id to write post doc to database
+    // get the user_id to write post doc to database
     this.authService.getProfile().subscribe(profile => {
       this.userId = profile.user._id;
-      console.log('userId: ' + this.userId)
+      console.log('userId: ' + this.userId);
     },
     err => {
       console.log(err);
       return false;
     });
 
-    // Init post doc 
+    // Init post doc
     this.post = {
       subject: this.subject,
       userId: this.userId,
@@ -64,80 +66,79 @@ export class DashboardComponent implements OnInit {
       dealId: this.dealId,
       other: {}
     };
+
+    // use items to decide how many <app-deal> to add
+    this.items = ['a'];
   }
 
   onCreated () {
     // when click the create button, hidden the button and show the smart form and resume form
     this.created = true;
-    this.resume = true;
+    // this.resume = true;
 
-    // create post doc to database 
-    this.post = {userId:this.userId};
-    console.log(this.post);
+    // create post doc to database
+    this.post = {userId: this.userId};
+    console.log('created new post:', this.post);
 
     // pust doc to database
     this.dashboardService.submitPost(this.post).subscribe( data => {
       if (data.success) {
-        this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
+        this.flashMessage.show( ' You are now submited  ', {cssClass: 'alert-success', timeout: 3000});
         this.postId = data.post._id;
-        console.log('postId: ' + this.postId)
+        console.log('postId: ' + this.postId );
 
       } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});
       }
-    })
+    });
 
   }
 
-  onSmart(data: string) {
-    if(!this.smartId) {
+  onSmart(data) {
+    if (!this.smartId) {
       // get the data from smart form
-      const arr = data.split(',');
-      console.log(arr);
-      this.smartId = arr[0];
-      this.subject = arr[1];
-      this.deadline = arr[2].slice(0,10);
+      this.smartId = data._id;
+      this.subject = data.subject;
+      this.deadline = data.timeBased.slice(0, 10);
       // add datas to post doc and update by the postId
       this.post = {
         subject: this.subject,
         userId: this.userId,
         smartId: this.smartId,
       };
-      console.log(this.post);
+      // console.log(this.post);
       this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
         if (data.success) {
-          this.flashMessage.show("You are now updated  ", {cssClass: 'alert-success', timeout: 3000});
-          console.log('update postId: ' + this.postId)
+          this.flashMessage.show('You are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+          console.log('update postId: ' + this.postId);
 
         } else {
-          this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show('Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
         }
-      })
+      });
     }
 
-    const arr = data.split(',');
-    console.log(arr);
-    this.smartId = arr[0];
-    this.subject = arr[1];
-    this.deadline = arr[2].slice(0,10);
+    this.smartId = data._id;
+    this.subject = data.subject;
+    this.deadline = data.timeBased.slice(0, 10);
     // show the rehearsal form
-    this.rehearsal = true;
-    
+    this.Rehearsal = true;
+
   }
 
   onSmartEdit() {
     // hidded all forms except smartform
-    this.rehearsal = false;
+    this.Rehearsal = false;
     this.operation = false;
-    this.resume = true;
+    this.resume = false;
   }
 
-  onRehearsal(data: string) {
-      
-      if(!this.rehearsalId) {
+  onRehearsal(datas) {
+
+      if (!this.rehearsalId) {
         // get the data from rehearsal form
-        this.rehearsalId = data;
-        console.log(data);
+        this.rehearsalId = datas._id;
+        // console.log(datas);
 
         // add datas to post doc and update by the postId
         this.post = {
@@ -146,27 +147,27 @@ export class DashboardComponent implements OnInit {
           smartId: this.smartId,
           rehearsalId: this.rehearsalId
         };
-        console.log(this.post);
+        // console.log('updated post: ', this.post);
         this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
           if (data.success) {
-            this.flashMessage.show("You are now updated  ", {cssClass: 'alert-success', timeout: 3000});
-            console.log('update postId: ' + this.postId)
+            this.flashMessage.show('You are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+            console.log('update postId: ' + this.postId);
 
           } else {
-            this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+            this.flashMessage.show('Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
           }
         });
 
-      } 
-      
-      // show the rehearsal form
+      }
+
+      // show the operation form
       this.operation = true;
   }
 
-  onOperation(data: string) {
-    if(!this.operationId) {
+  onOperation(datas) {
+    if (!this.operationId) {
       // get the data from operation form
-      this.operationId = data;
+      this.operationId = datas._id;
 
       // add datas to post doc and update by the postId
       this.post = {
@@ -176,27 +177,52 @@ export class DashboardComponent implements OnInit {
         rehearsalId: this.rehearsalId,
         operationId: this.operationId
       };
+      // console.log(this.post);
+      this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
+        if (data.success) {
+          this.flashMessage.show('Post are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+          console.log('update postId: ' + this.postId);
+
+        } else {
+          this.flashMessage.show('updated post went wrong ', {cssClass: 'alert-danger', timeout: 3000});
+        }
+      });
+
+    }
+    // show the ask form or resume form
+    this.ask = true;
+
+  }
+
+  onAsk(datas) {
+    this.askId = datas._id;
+
+      // add datas to post doc and update by the postId
+      this.post = {
+        subject: this.subject,
+        userId: this.userId,
+        smartId: this.smartId,
+        rehearsalId: this.rehearsalId,
+        operationId: this.operationId,
+        askId: this.askId
+      };
       console.log(this.post);
       this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
         if (data.success) {
-          this.flashMessage.show("You are now updated  ", {cssClass: 'alert-success', timeout: 3000});
-          console.log('update postId: ' + this.postId)
+          this.flashMessage.show('You are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+          console.log('update postId: ' + this.postId);
 
         } else {
-          this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show('Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
         }
       });
-      
-      this.resume = true;
-    } 
-    
 
   }
-  
-  onResume(data: string) {
-    if(!this.resumeId) {
+
+  onResume(datas) {
+    if (!this.resumeId) {
       // get the data from operation form
-      this.resumeId = data;
+      this.resumeId = datas._id;
 
       // add datas to post doc and update by the postId
       this.post = {
@@ -210,17 +236,17 @@ export class DashboardComponent implements OnInit {
       console.log(this.post);
       this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
         if (data.success) {
-          this.flashMessage.show("You are now updated  ", {cssClass: 'alert-success', timeout: 3000});
-          console.log('update postId: ' + this.postId)
+          this.flashMessage.show('You are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+          console.log('update postId: ' + this.postId);
 
         } else {
-          this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show('Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
         }
       });
 
     }
-    
+
   }
-  
+
+
 }
- 

@@ -13,7 +13,7 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text">Subject:</span>
                 </div> 
-                <span>Subject:  {{subject}} </span>
+                <input class="form-control" type="text" placeholder={{subject}} disabled>
         </div>
         <br>
         <div class="input-group" *ngIf="!deadline">
@@ -27,7 +27,7 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text">deadline:</span>
                 </div> 
-                <span>Deadline:  {{deadline}} </span>
+                <input class="form-control" type="text" placeholder={{deadline}} disabled>
         </div>
         <br>
         <div class="input-group" >
@@ -78,13 +78,16 @@
   </form>
 
   <form *ngIf="submited" [routerLinkActive]="['active']" >
-    <ul *ngIf="submited">
         <h5>---Rehearsal Form---</h5>
-        <li *ngFor="let item of rehearsalMessage">
-            {{item}}
-        </li>
-    </ul>
+        <br>
+        <ul *ngFor="let item of rehearsalMessage; let i=index">
+                <li >
+                   {{name[i]}}   :   {{item}}
+                </li>
+        </ul>
+        <br>
     <button  (click)="onRehearsalFormEdit()" class="btn btn-primary">Edit</button>
     <hr>
+    <br>
   </form>
   

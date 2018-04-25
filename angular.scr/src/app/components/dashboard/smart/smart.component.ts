@@ -16,17 +16,18 @@ export class SmartComponent implements OnInit {
   smart: FormGroup;
   submited: boolean;
   edit: boolean;
-  smartMessage:any;
+  smartMessage: string[];
   smartId: string;
-  subject:string;
+  subject: string;
   timeBased: string;
-  
-  // when Edit button click, tell the parent to close all form except smart form
-  @Output() onEdit = new EventEmitter<boolean>();
-  // when Next button click, pass the message to dashboard
-  @Output() onSmartId = new EventEmitter<string>();
+  name: string[];
 
-  constructor(private formBuilder: FormBuilder, 
+  // when Edit button click, tell the parent to close all form except smart form
+  @Output() Edit = new EventEmitter<boolean>();
+  // when Next button click, pass the message to dashboard
+  @Output() SmartData = new EventEmitter<object>();
+
+  constructor(private formBuilder: FormBuilder,
               private flashMessage: FlashMessagesService,
               private router: Router,
               private dashboardService: DashboardService,
@@ -34,7 +35,7 @@ export class SmartComponent implements OnInit {
 
   ngOnInit() {
     this.smart = this.formBuilder.group({
-      subject: ['',[Validators.required, Validators.minLength(8)]],
+      subject: ['', [Validators.required, Validators.minLength(8)]],
       speciafic: ['', [Validators.required]],
       measurable:  ['', [Validators.required]],
       achievable: ['', [Validators.required]],
@@ -42,86 +43,75 @@ export class SmartComponent implements OnInit {
       timeBased:  ['', [Validators.required]],
       ratio: ['', [Validators.required]]
     });
- 
-
+    this.name = ['subject', 'speciafic', 'measurable', 'achievable', 'relevant', 'timeBased', 'ratio'];
   }
 
   onSmartFormSubmit() {
     const smart = this.smart.value;
-    console.log('smart value: ',this.smart.value, this.smart.valid);
+    console.log('smart value: ', this.smart.value, this.smart.valid);
 
 
     // Submit SmartForm
     this.dashboardService.submitSmart(smart).subscribe( data => {
       if (data.success) {
-        this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
-       
+        this.flashMessage.show('Smart form are now submited  ', {cssClass: 'alert-success', timeout: 3000});
+
         // make flagged to hidden/show SmartForm
         this.submited = true;
-        
+
         // output the smartMessage
-        const messages = JSON.stringify(smart);
-        this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log('smartMessage: ',this.smartMessage);
-        
-        // get the smartId to edit
+        this.smartMessage = [data.smart.subject, data.smart.speciafic, data.smart.measurable, data.smart.achievable,
+           data.smart.relevant, smart.timeBased, data.smart.ratio];
+        console.log('smartMessage: ', this.smartMessage);
+
         this.smartId = data.smart._id;
-        this.subject = data.smart.subject;
-        this.timeBased = data.smart.timeBased;
-        console.log('smartId:'+ this.smartId)
-      
+
         // pass  message to parent module
-        const message = this.smartId+","+this.subject+","+this.timeBased;
-        this.onSmartId.emit(message);
-        console.log('smartform pass data: ', message)      
+        this.SmartData.emit(data.smart);
+        console.log('smartform pass data: ', data.smart);
         // this.router.navigate(['/dashboard']);
-        
+
       } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show('submit smart form went wrong ', {cssClass: 'alert-danger', timeout: 3000});
       }
-    })
+    });
   }
 
-  onSmartFormUpdate(){
+  onSmartFormUpdate() {
     const smart = this.smart.value;
     const Id = this.smartId;
-    console.log('update smartId: ',Id);
-    this.dashboardService.updateSmart(smart,Id).subscribe(data => {
+    console.log('update smartId: ', Id);
+    this.dashboardService.updateSmart(smart, Id).subscribe(data => {
       if (data.success) {
-        this.flashMessage.show("You are now submited  ", {cssClass: 'alert-success', timeout: 3000});
-       
+        this.flashMessage.show('smart form are now submited  ', {cssClass: 'alert-success', timeout: 3000});
+
         // make flagged to hidden/show SmartForm
         this.submited = true;
         this.edit = false;
-        
-        // output the smartMessage
-        const messages = JSON.stringify(smart);
-        this.smartMessage= messages.slice(2,messages.length-1).split(",");
-        console.log('updated smartMessage: ',this.smartMessage)
 
-        // revalue the subject and deadline
-        this.subject = this.smart.value.subject;
-        this.timeBased = this.smart.value.timeBased;
-        
+        // output the smartMessage
+        this.smartMessage = [data.smart.subject, data.smart.speciafic, data.smart.measurable, data.smart.achievable,
+          data.smart.relevant, smart.timeBased, data.smart.ratio];
+        console.log('updated smartMessage: ', this.smartMessage);
+
         // pass  message to parent module
-        const message = this.smartId+","+this.subject+","+this.timeBased;
-        this.onSmartId.emit(message);
-        console.log('smartform pass data: '+ message)      
+        this.SmartData.emit(data.smart);
+        console.log('smartform pass data: ' + data.smart);
         // this.router.navigate(['/dashboard']);
-        
+
       } else {
-        this.flashMessage.show("Something went wrong ", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show('updated smart form went wrong ', {cssClass: 'alert-danger', timeout: 3000});
       }
-    })
+    });
   }
-  
+
   onSmartFormEdit() {
     // show the Form
     this.submited = false;
     // hidden the edit button
     this.edit = true;
     // tell dashboard to hidden all form except the smart form
-    this.onEdit.emit(true)
+    this.Edit.emit(true);
   }
 
 

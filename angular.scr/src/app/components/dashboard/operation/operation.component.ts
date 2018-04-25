@@ -20,7 +20,7 @@ export class OperationComponent implements OnInit {
   desc: string;
   result: boolean;
 
-  @Output() OperationId = new EventEmitter<string>();
+  @Output() OperationData = new EventEmitter<object>();
   @Input() getOperationId: string;
 
   constructor(
@@ -44,7 +44,7 @@ export class OperationComponent implements OnInit {
   onOperationFormSubmit() {
     // done[] have one false, then the result is false
     this.result = true;
-    for ( let item of this.done) {
+    for (let item of this.done) {
       if (!item) { this.result = false; }
     }
     const doc = this.operation = {
@@ -60,19 +60,12 @@ export class OperationComponent implements OnInit {
         // make flagged to hidden/show Form
         this.submited = true;
 
-        // output the rehearsalMessage
-        // const messages = JSON.stringify(doc);
-        // console.log(messages);
-        // this.operationMessage= messages.slice(2,messages.length-1).split("],");
-        // this.operationMessage[0] += ']';
-        // console.log('submit operationMessage: ',this.operationMessage);
-
-        // get the smartId to edit
+        // get the operationId to edit
         this.operationId = data.operation._id;
         console.log('operationId: ' + this.operationId);
 
         // pass the rehearsal Id to dashboard
-        this.OperationId.emit(this.operationId);
+        this.OperationData.emit(data.operation);
 
         // this.router.navigate(['/dashboard']);
 
@@ -102,14 +95,8 @@ export class OperationComponent implements OnInit {
         this.submited = true;
         this.edit = false;
 
-        // output the operatioMessage
-        // const messages = JSON.stringify(doc);
-        // this.operationMessage= messages.slice(2,messages.length-1).split("],");
-        // this.operationMessage[0] += ']';
-        // console.log('update operatinMessage: '+ this.operationMessage)
-
-        // pass the rehearsal Id to parent module
-        this.OperationId.emit(this.operationId);
+        // pass the operation data to parent module
+        this.OperationData.emit(data.operation);
 
       } else {
         this.flashMessage.show('update operation went wrong ', {cssClass: 'alert-danger', timeout: 3000});
