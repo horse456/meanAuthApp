@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { tokenNotExpired } from 'angular2-jwt';
+
 
 @Injectable()
 export class DashboardService {
+  authToken: any;
 
   constructor(private http: Http) { }
 
@@ -52,6 +56,13 @@ export class DashboardService {
     headers.append('Content-Type', 'application/json');
     console.log('http://localhost:3000/users/dashboard/post/update?postId='+Id);
     return this.http.post('http://localhost:3000/users/dashboard/post/update?postId='+Id, doc, {headers: headers})
+      .map( res => res.json());
+  }
+
+  getPost(Id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/users/dashboard/post?userId=' + Id, {headers: headers})
       .map( res => res.json());
   }
 
@@ -144,21 +155,21 @@ export class DashboardService {
       .map( res => res.json());
   }
 
- // Ask form
- submitAsk(doc) {
+   // Ask form
+  submitAsk(doc) {
   let headers = new Headers();
   headers.append('Content-Type', 'application/json');
   return this.http.post('http://localhost:3000/users/dashboard/ask/add', doc, {headers: headers})
     .map( res => res.json());
-}
+  }
 
-updateAsk(doc, Id) {
+  updateAsk(doc, Id) {
   let headers = new Headers();
   headers.append('Content-Type', 'application/json');
   console.log('http://localhost:3000/users/dashboard/ask/update?askId=' + Id);
   return this.http.post('http://localhost:3000/users/dashboard/ask/update?askId=' + Id, doc, {headers: headers})
     .map( res => res.json());
-}
+  }
 
 
 }

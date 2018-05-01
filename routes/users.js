@@ -273,21 +273,39 @@ router.post('/dashboard/post/update', (req, res, next) => {
     })
 });
 
-router.get('/dashboard/post', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    const Id = req.query.postId;
-    console.log('get post: ',Id);
-    // res.json({smart: req.smart});
-    Post.getPostById(Id, (err, post) => {
-        if(err) throw err;
-        if(!doc) {
-            return res.json({success: false, msg: 'Post Form not found'});
-        } else {
-            res.json({
-                success: true,
-                post
-            })
-        }
-    })
+router.get('/dashboard/post',  (req, res, next) => {
+    // const Id = req.query.postId;
+    if (req.query.postId) {
+        console.log('get post: ',Id);
+        // res.json({smart: req.smart});
+        Post.getPostById(Id, (err, post) => {
+            if(err) throw err;
+            if(!post) {
+                return res.json({success: false, msg: 'Post Form not found'});
+            } else {
+                res.json({
+                    success: true,
+                    post
+                })
+            }
+        });
+    }
+    const query = { userId: req.query.userId};
+    if (req.query.userId) {
+        console.log('get posts by userId:', req.query.userId);
+        Post.find(query, (err, post) => {
+            if(err) throw err;
+            if(!post) {
+                return res.json({success: false, msg: 'Post Form not found'});
+            } else {
+                res.json({
+                    success: true,
+                    post
+                });
+                console.log(post);
+            }
+        })
+    }
 });
 
 router.post('/dashboard/post/remove', (req, res, next) => {

@@ -1,34 +1,151 @@
 <h2 class="page-header">Dashboard</h2>
 <br>
+<!-- creat new project -->
 <button class="btn btn-primary" *ngIf="!created" [routerLinkActive]="['active']" (click)="onCreated()" >Create New Preject</button>
-<div *ngIf="created">
-    <app-smart (SmartData)="onSmart($event)" (Edit)="onSmartEdit()"></app-smart>
-</div>
-    <div *ngIf="Rehearsal" >
-    <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" [getRehearsalId]="this.rehearsalId" (RehearsalData)="onRehearsal($event)"></app-rehearsal>
-</div>
-<div *ngIf="operation">
-    <app-operation [getOperationId]="operationId" (OperationData)="onOperation($event)"></app-operation>
-</div>
-<div *ngIf="ask">
-        <p *ngIf="!Ask"> if we got some trubles, we may get helps form ask form!  <button class="btn btn-primary" (click)="Ask=true;">Ask Form</button></p>
-        <div *ngIf="Ask">
-        <app-ask (AskData)="onAsk(); Button=true"></app-ask>
+<div class="accordion" id="accordion01" *ngIf="created">
+        <div class="card">
+          <div class="card-header" id="SmartHeading">
+            <h5 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#SmartOne" aria-expanded="true" aria-controls="SmartOne">
+                  SMART:
+              </button>
+            </h5>
+          </div>
+      
+          <div id="SmartOne" class="collapse show" aria-labelledby="SmartHeading" data-parent="#accordion01">
+            <div class="card-body">
+                
+                <app-smart (SmartData)="onSmart($event)" (Edit)="onSmartEdit()"></app-smart>
+                
+            </div>
+          </div>
         </div>
-        <p>if we don't need any helps, we just pass!!  <button class="btn btn-primary" (click)="ask=false; Button=true">Pass</button></p>
-        <br>
-       
-</div>
-<div *ngIf="Button">
-        <button class="btn btn-primary" (click)="result=true; resume=true" >Success</button>
-        <button class="btn btn-primary" (click)="Fail=true; Button=false; resume=true;" >Fail</button>
-</div>
-<app-faild *ngIf="Fail"></app-faild>
-<br>
 
-<div *ngIf="resume">
-        <p > Now we finished, we may make some resumes! </p>
-        <app-resume [subject]="subject" [userId]="userId" [getResumeId]="resumeId" (onResumeId)="onResume($event)" ></app-resume>
+        <div class="card" *ngIf="Rehearsal">
+                <div class="card-header" id="RehearsalHeading">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#RehearsalTwo" aria-expanded="false" aria-controls="RehearsalTwo">
+                        Rehearsal:
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="RehearsalTwo" class="collapse" aria-labelledby="RehearsalHeading" data-parent="#accordion01">
+                  <div class="card-body">
+                        <app-rehearsal [subject]="this.subject" [deadline]="this.deadline" [getRehearsalId]="this.rehearsalId" (RehearsalData)="onRehearsal($event)"></app-rehearsal>
+                  </div>
+                </div>
+        </div>
+
+        <div class="card" *ngIf="operation">
+                <div class="card-header" id="operationHeading">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#OperationThree" aria-expanded="false" aria-controls="OperationThree">
+                        Operation:
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="OperationThree" class="collapse" aria-labelledby="operationHeading" data-parent="#accordion01">
+                  <div class="card-body">
+                      
+                        <app-operation [getOperationId]="operationId" (OperationData)="onOperation($event)"></app-operation>
+
+                  </div>
+                </div>
+        </div>
+
+        <div class="card" *ngIf="ask" >
+                <div class="card-header" id="AskHeadingFour">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#AskFour" aria-expanded="false" aria-controls="AskFour">
+                        Ask:
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="AskFour" class="collapse" aria-labelledby="AskHeadingFour" data-parent="#accordion01">
+                  <div class="card-body">
+                      
+                        <p *ngIf="!Ask"> if we got some trubles, we may get helps form ask form!  <button class="btn btn-primary" (click)="Ask=true;">Ask Form</button></p>
+                        <div *ngIf="Ask">
+                                <app-ask (AskData)="onAsk($event); Button=true"></app-ask>
+                        </div>
+                        <p *ngIf="!Ask">if we don't need any helps, we just pass!!  <button class="btn btn-primary" (click)="ask=false; Button=true">Pass</button></p>
+                        <br>
+
+                  </div>
+                </div>
+        </div>
+
+        <div class="card" *ngIf="Fail">
+                <div class="card-header" id="FailureHeadingFive">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#FailureFive" aria-expanded="false" aria-controls="FailureFive">
+                        Failure:
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="FailureFive" class="collapse show" aria-labelledby="FailureHeadingFive" data-parent="#accordion01">
+                  <div class="card-body">
+                      
+                        <app-faild ></app-faild>
+                  </div>
+                </div>
+        </div>
+
+        <div class="card" *ngIf="resume">
+                <div class="card-header" id="ResumeHeadingSix">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#ResumeSix" aria-expanded="false" aria-controls="ResumeSix">
+                        Resume:
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="ResumeSix" class="collapse show" aria-labelledby="ResumeHeadingSix" data-parent="#accordion01">
+                  <div class="card-body">
+                      
+                        <p > Now we finished, we may make some resumes! </p>
+                        <app-resume [subject]="subject" [userId]="userId" [getResumeId]="resumeId" (onResumeId)="onResume($event); Done=true" ></app-resume>
+                  </div>
+                </div>
+        </div>
+    
+        <div *ngIf="Button">
+                <br>
+                <p>make sure you want to close this preject! If no, click the above button!</p>
+                <button class="btn btn-primary" (click)=" result=true; resume=true; Button=false; done()" >Success</button>
+                <button class="btn btn-primary" (click)="done(); Fail=true; Button=false; resume=true;" >Fail</button>
+        </div>
+</div>
+
+
+<br><br>
+
+<!-- show all projects -->
+<table class="table table-striped" >
+        <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Result</th>
+                <th scope="col">Detail</th>
+                </tr>
+        </thead>
+        <tbody *ngFor="let item of items; let i=index">
+                <tr>
+                <th scope="row">{{i+1}}</th>
+                <td>{{item.subject}}</td>
+                <td>{{item.result}}</td>
+                <td>{{item._id}}</td>
+                </tr>
+        </tbody>
+</table>
+
+<div *ngIf="Done">
+        <!-- show the form after click done -->
 </div>
 
         <!-- use ngfor to increase another app-deal -->

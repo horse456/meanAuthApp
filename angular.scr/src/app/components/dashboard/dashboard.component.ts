@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   rehearsalId: string;
   operation: boolean;
   operationId: string;
-  result: string;
+  result: boolean;
   resume: boolean;
   resumeId: string;
   ask: boolean;
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   dealId: string;
   other: object;
 
-  items: string[];
+  items: any[];
 
   constructor (private authService: AuthService,
               private dashboardService: DashboardService,
@@ -47,6 +47,16 @@ export class DashboardComponent implements OnInit {
     this.authService.getProfile().subscribe(profile => {
       this.userId = profile.user._id;
       console.log('userId: ' + this.userId);
+      this.dashboardService.getPost(this.userId).subscribe(data => {
+        if (data.success) {
+          this.flashMessage.show('Get all posts by userId', {cssClass: 'alert-success', timeout: 3000});
+            console.log('Get posts: ' + data.post);
+            this.items = data.post;
+            console.log('this.items :' + this.items);
+        } else {
+          this.flashMessage.show('Geting posts went wrong ', {cssClass: 'alert-danger', timeout: 3000});
+        }
+      });
     },
     err => {
       console.log(err);
@@ -68,7 +78,8 @@ export class DashboardComponent implements OnInit {
     };
 
     // use items to decide how many <app-deal> to add
-    this.items = ['a'];
+    this.result = false;
+
   }
 
   onCreated () {
@@ -94,17 +105,18 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  onSmart(data) {
+  onSmart(datas) {
     if (!this.smartId) {
       // get the data from smart form
-      this.smartId = data._id;
-      this.subject = data.subject;
-      this.deadline = data.timeBased.slice(0, 10);
+      this.smartId = datas._id;
+      this.subject = datas.subject;
+      this.deadline = datas.timeBased.slice(0, 10);
       // add datas to post doc and update by the postId
       this.post = {
         subject: this.subject,
         userId: this.userId,
         smartId: this.smartId,
+        result: this.result
       };
       // console.log(this.post);
       this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
@@ -118,9 +130,9 @@ export class DashboardComponent implements OnInit {
       });
     }
 
-    this.smartId = data._id;
-    this.subject = data.subject;
-    this.deadline = data.timeBased.slice(0, 10);
+    this.smartId = datas._id;
+    this.subject = datas.subject;
+    this.deadline = datas.timeBased.slice(0, 10);
     // show the rehearsal form
     this.Rehearsal = true;
 
@@ -145,7 +157,8 @@ export class DashboardComponent implements OnInit {
           subject: this.subject,
           userId: this.userId,
           smartId: this.smartId,
-          rehearsalId: this.rehearsalId
+          rehearsalId: this.rehearsalId,
+          result: this.result
         };
         // console.log('updated post: ', this.post);
         this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
@@ -175,7 +188,8 @@ export class DashboardComponent implements OnInit {
         userId: this.userId,
         smartId: this.smartId,
         rehearsalId: this.rehearsalId,
-        operationId: this.operationId
+        operationId: this.operationId,
+        result: this.result
       };
       // console.log(this.post);
       this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
@@ -248,5 +262,28 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  done() {
+    // result is true
+    this.post = {
+      subject: this.subject,
+      userId: this.userId,
+      smartId: this.smartId,
+      rehearsalId: this.rehearsalId,
+      operationId: this.operationId,
+      result: this.result,
+      resumeId: this.resumeId,
+      askId: this.askId,
+      other: {}
+    };
+    this.dashboardService.updatePost(this.post, this.postId).subscribe( data => {
+      if (data.success) {
+        this.flashMessage.show('You are now updated  ', {cssClass: 'alert-success', timeout: 3000});
+        console.log('update postId: ' + this.postId);
+
+      } else {
+        this.flashMessage.show('Something went wrong ', {cssClass: 'alert-danger', timeout: 3000});
+      }
+    });
+  }
 
 }
